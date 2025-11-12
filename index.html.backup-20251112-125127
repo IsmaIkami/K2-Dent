@@ -1079,10 +1079,6 @@
                 <div class="logo-icon">🦷</div>
                 <div class="logo-text">DentalCockpit Pro</div>
             </div>
-            <div style="text-align: center; padding: 10px 0; margin-bottom: 20px; border-bottom: 1px solid var(--border);">
-                <div style="font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Powered by</div>
-                <div style="font-size: 14px; font-weight: 700; color: var(--primary); margin-top: 4px;">RCE</div>
-            </div>
 
             <nav>
                 <div class="nav-section">
@@ -1102,26 +1098,6 @@
                     <a href="treatment.html" class="nav-item">
                         <span>🎯</span>
                         <span>Plan de Traitement</span>
-                    </a>
-                </div>
-
-                <div class="nav-section">
-                    <div class="nav-title">Clinique</div>
-                    <a href="dental-chart.html" class="nav-item">
-                        <span>🦷</span>
-                        <span>Schéma Dentaire</span>
-                    </a>
-                    <a href="paro.html" class="nav-item">
-                        <span>📊</span>
-                        <span>Parodontologie</span>
-                    </a>
-                    <a href="ortho.html" class="nav-item">
-                        <span>🔧</span>
-                        <span>Orthodontie</span>
-                    </a>
-                    <a href="prescriptions.html" class="nav-item">
-                        <span>💊</span>
-                        <span>Prescriptions</span>
                     </a>
                 </div>
 
