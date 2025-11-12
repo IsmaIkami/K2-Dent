@@ -390,6 +390,118 @@
             margin: 5px;
         }
 
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 40px;
+            background: linear-gradient(180deg, var(--dark) 0%, #0D1221 100%);
+        }
+
+        .pricing-grid {
+            max-width: 1400px;
+            margin: 60px auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            align-items: start;
+        }
+
+        .pricing-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 102, 255, 0.3);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 102, 255, 0.4);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .pricing-header h3 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .pricing-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .pricing-price .price {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pricing-price .period {
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        .pricing-description {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: var(--text);
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
         /* Demo Section */
         .demo {
             padding: 100px 40px;
@@ -527,6 +639,7 @@
             <div class="nav-links">
                 <a href="#features">Fonctionnalités</a>
                 <a href="#technology">Technologie IA</a>
+                <a href="#pricing">Tarifs</a>
                 <a href="#demo">Démo</a>
                 <a href="dashboard.html" class="btn btn-primary">Accéder à l'App →</a>
             </div>
@@ -667,41 +780,132 @@
 
     <!-- AI Technology Section -->
     <section class="ai-tech" id="technology">
-        <h2 class="section-title">Propulsé par l'IA de Pointe</h2>
-        <p class="section-subtitle">RCE combine les meilleurs modèles d'IA pour une précision maximale</p>
+        <h2 class="section-title">Propulsé par RCE AI Engine</h2>
+        <p class="section-subtitle">
+            <a href="https://ismaikami.github.io/rce-website/" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--primary);">RCE (Recursive Cognitive Engine)</a>
+            est notre moteur d'intelligence artificielle propriétaire qui orchestre intelligemment<br>
+            GPT-4, Claude Sonnet et Gemini Pro en fonction des besoins spécifiques de chaque tâche
+        </p>
 
         <div class="ai-models">
-            <div class="ai-model-card rce">
-                <h3>🧠 RCE</h3>
-                <p>Notre moteur IA propriétaire qui orchestre et optimise tous les modèles</p>
-                <div class="tech-badge">Orchestration</div>
-                <div class="tech-badge">Optimisation</div>
-                <div class="tech-badge">Sécurité</div>
+            <div class="ai-model-card rce" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto;">
+                <h3>🧠 RCE - Recursive Cognitive Engine</h3>
+                <p style="font-size: 18px; line-height: 1.8; margin-bottom: 20px;">
+                    <strong>RCE</strong> est votre unique point d'accès à l'intelligence artificielle. En interne, RCE sélectionne automatiquement
+                    le meilleur modèle (GPT-4 Turbo, Claude Sonnet, ou Gemini Pro) selon la tâche :
+                    transcription vocale, analyse médicale, vision radiographique, génération de rapports.
+                    <br><br>
+                    <strong>Vous utilisez RCE, RCE orchestre tout le reste.</strong>
+                </p>
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+                    <div class="tech-badge">Orchestration Intelligente</div>
+                    <div class="tech-badge">GPT-4 Turbo Intégré</div>
+                    <div class="tech-badge">Claude Sonnet Intégré</div>
+                    <div class="tech-badge">Gemini Pro Intégré</div>
+                    <div class="tech-badge">Optimisation Auto</div>
+                    <div class="tech-badge">Sécurité Médicale</div>
+                </div>
+                <div style="margin-top: 30px;">
+                    <a href="https://ismaikami.github.io/rce-website/" target="_blank" class="btn btn-primary" style="display: inline-block;">
+                        🌐 En savoir plus sur RCE →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Plans & Abonnements</h2>
+        <p class="section-subtitle">Choisissez la formule adaptée à votre cabinet dentaire</p>
+
+        <div class="pricing-grid">
+            <!-- Plan Starter -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Starter</h3>
+                    <div class="pricing-icon">🌱</div>
+                </div>
+                <div class="pricing-price">
+                    <span class="price">€99</span>
+                    <span class="period">/mois</span>
+                </div>
+                <p class="pricing-description">Idéal pour les praticiens solo ou petits cabinets</p>
+                <ul class="pricing-features">
+                    <li>✓ 1 praticien</li>
+                    <li>✓ Jusqu'à 100 patients</li>
+                    <li>✓ Schéma dentaire intelligent</li>
+                    <li>✓ Enregistrement vocal IA</li>
+                    <li>✓ Anamnèse automatique</li>
+                    <li>✓ Prescriptions Recip-e</li>
+                    <li>✓ INAMI / e-Health</li>
+                    <li>✓ 10 analyses IA / mois</li>
+                    <li>✓ Support email</li>
+                </ul>
+                <a href="dashboard.html" class="btn btn-secondary" style="width: 100%; display: block; text-align: center;">Commencer</a>
             </div>
 
-            <div class="ai-model-card gpt">
-                <h3>🤖 GPT-4</h3>
-                <p>OpenAI GPT-4 Turbo pour la génération de texte et l'analyse contextuelle</p>
-                <div class="tech-badge">NLP Avancé</div>
-                <div class="tech-badge">Transcription</div>
-                <div class="tech-badge">Rédaction</div>
+            <!-- Plan Professional (Featured) -->
+            <div class="pricing-card featured">
+                <div class="featured-badge">⭐ Populaire</div>
+                <div class="pricing-header">
+                    <h3>Professional</h3>
+                    <div class="pricing-icon">🚀</div>
+                </div>
+                <div class="pricing-price">
+                    <span class="price">€249</span>
+                    <span class="period">/mois</span>
+                </div>
+                <p class="pricing-description">Solution complète pour cabinets établis</p>
+                <ul class="pricing-features">
+                    <li>✓ Jusqu'à 3 praticiens</li>
+                    <li>✓ Patients illimités</li>
+                    <li>✓ Toutes fonctionnalités Starter</li>
+                    <li>✓ Scanner 3D & radiographies</li>
+                    <li>✓ Analyses IA illimitées</li>
+                    <li>✓ Charting parodontal avancé</li>
+                    <li>✓ Orthodontie & céphalométrie</li>
+                    <li>✓ Rapports intelligents</li>
+                    <li>✓ API pharmacologie</li>
+                    <li>✓ Timeline patient complète</li>
+                    <li>✓ Support prioritaire 24/7</li>
+                </ul>
+                <a href="dashboard.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center;">Essayer 30 jours</a>
             </div>
 
-            <div class="ai-model-card anthropic">
-                <h3>⚡ Claude</h3>
-                <p>Anthropic Claude Sonnet pour l'analyse médicale et la précision clinique</p>
-                <div class="tech-badge">Analyse Médicale</div>
-                <div class="tech-badge">Précision</div>
-                <div class="tech-badge">Éthique IA</div>
+            <!-- Plan Enterprise -->
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3>Enterprise</h3>
+                    <div class="pricing-icon">🏢</div>
+                </div>
+                <div class="pricing-price">
+                    <span class="price">Sur mesure</span>
+                </div>
+                <p class="pricing-description">Pour cliniques et groupes de cabinets</p>
+                <ul class="pricing-features">
+                    <li>✓ Praticiens illimités</li>
+                    <li>✓ Multi-sites</li>
+                    <li>✓ Toutes fonctionnalités Pro</li>
+                    <li>✓ Personnalisation complète</li>
+                    <li>✓ Intégrations sur mesure</li>
+                    <li>✓ Formation équipe incluse</li>
+                    <li>✓ Gestionnaire de compte dédié</li>
+                    <li>✓ SLA garanti 99.9%</li>
+                    <li>✓ Déploiement on-premise possible</li>
+                    <li>✓ Conformité RGPD avancée</li>
+                    <li>✓ Support dédié 24/7</li>
+                </ul>
+                <a href="#" class="btn btn-secondary" style="width: 100%; display: block; text-align: center;" onclick="alert('Contactez-nous à contact@dentalcockpit.pro pour un devis personnalisé'); return false;">Nous contacter</a>
             </div>
+        </div>
 
-            <div class="ai-model-card gemini">
-                <h3>✨ Gemini</h3>
-                <p>Google Gemini Pro pour l'analyse d'images et la vision par ordinateur</p>
-                <div class="tech-badge">Vision IA</div>
-                <div class="tech-badge">Radiographies</div>
-                <div class="tech-badge">Multimodal</div>
-            </div>
+        <div style="text-align: center; margin-top: 60px; padding: 40px; background: rgba(0, 102, 255, 0.1); border-radius: 16px; max-width: 900px; margin-left: auto; margin-right: auto;">
+            <p style="font-size: 18px; line-height: 1.8; color: var(--text-muted);">
+                💡 <strong>Tous les plans incluent :</strong> Mises à jour automatiques, sécurité médicale maximale,
+                hébergement cloud certifié, conformité RGPD, backups quotidiens, et accès à toutes les nouvelles fonctionnalités IA développées par
+                <a href="https://ismaikami.github.io/rce-website/" target="_blank" style="color: var(--primary); font-weight: 600;">RCE</a>
+            </p>
         </div>
     </section>
 
@@ -746,11 +950,19 @@
                 Solution dentaire nouvelle génération alimentée par l'intelligence artificielle.<br>
                 Faites passer votre cabinet au niveau supérieur.
             </p>
-            <div class="footer-credits">
-                <strong>Design by Ismail Sialyen</strong><br>
-                Powered by <strong>RCE</strong> • AI Engine<br>
-                Technologies: GPT-4 Turbo • Claude Sonnet • Gemini Pro<br>
-                © 2025 DentalCockpit Pro. Tous droits réservés.
+            <div class="footer-credits" style="margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <div style="font-size: 14px; margin-bottom: 15px;">
+                    <strong style="font-size: 16px;">Développement et Design by Ismail Sialyen</strong>
+                </div>
+                <div style="font-size: 15px; margin-bottom: 10px;">
+                    Powered by <a href="https://ismaikami.github.io/rce-website/" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none;">RCE</a> <span style="color: var(--text-muted);">(AI Engine)</span>
+                </div>
+                <div style="font-size: 13px; color: var(--text-muted); margin-top: 20px;">
+                    RCE orchestre intelligemment GPT-4 Turbo, Claude Sonnet et Gemini Pro
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 20px;">
+                    © 2025 DentalCockpit Pro. Tous droits réservés.
+                </div>
             </div>
         </div>
     </footer>
