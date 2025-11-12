@@ -464,11 +464,11 @@
         }
 
         .pricing-grid {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 60px auto 0;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
             align-items: start;
         }
 
@@ -1002,26 +1002,30 @@
             </div>
 
             <div class="feature-card" onclick="toggleFeature(this)">
-                <div class="feature-icon">🌙</div>
-                <h3>Dark/Light Mode</h3>
-                <p>Interface adaptative avec thème clair et sombre. Persistance des préférences, optimisé pour longues sessions.</p>
+                <div class="feature-icon">📅</div>
+                <h3>Gestion Intelligente de l'Agenda</h3>
+                <p>Optimisation automatique des créneaux, rappels patients, gestion conflits. RCE analyse et suggère le planning optimal.</p>
                 <div class="feature-expand-btn">En savoir plus →</div>
                 <div class="feature-details">
                     <div class="feature-details-content">
                         <div class="feature-benefit">
                             <span class="feature-benefit-icon">✓</span>
-                            <span><strong>Confort visuel :</strong> Dark mode pour réduire fatigue oculaire lors de longues journées</span>
+                            <span><strong>Optimisation IA :</strong> RCE analyse votre agenda et suggère les meilleurs créneaux selon type de soin et durée</span>
                         </div>
                         <div class="feature-benefit">
                             <span class="feature-benefit-icon">✓</span>
-                            <span><strong>Préférences sauvées :</strong> Choix mémorisé par utilisateur, bascule instantanée d'un clic</span>
+                            <span><strong>Rappels automatiques :</strong> SMS/Email envoyés automatiquement 48h et 24h avant RDV, réduction no-shows de 70%</span>
                         </div>
                         <div class="feature-benefit">
                             <span class="feature-benefit-icon">✓</span>
-                            <span><strong>Design moderne :</strong> Interface professionnelle qui valorise votre cabinet auprès des patients</span>
+                            <span><strong>Gestion conflits intelligente :</strong> Détection double réservation, suggestions alternatives, réorganisation automatique</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Statistiques temps réel :</strong> Taux remplissage, durées moyennes, créneaux libres, optimisation continue</span>
                         </div>
                         <div class="feature-roi">
-                            💰 ROI : Moins de fatigue = productivité maintenue toute la journée
+                            💰 ROI : Taux remplissage +25% + réduction no-shows 70% = +€2000-3000/mois
                         </div>
                     </div>
                 </div>
@@ -1065,6 +1069,32 @@
         <p class="section-subtitle">Choisissez la formule adaptée à votre cabinet dentaire</p>
 
         <div class="pricing-grid">
+            <!-- Plan Academic (Free) -->
+            <div class="pricing-card" style="border-color: var(--secondary);">
+                <div class="featured-badge" style="background: linear-gradient(135deg, var(--secondary) 0%, #00A578 100%);">🎓 Gratuit</div>
+                <div class="pricing-header">
+                    <h3>Académique</h3>
+                    <div class="pricing-icon">🎓</div>
+                </div>
+                <div class="pricing-price">
+                    <span class="price" style="background: linear-gradient(135deg, var(--secondary) 0%, #00A578 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">GRATUIT</span>
+                </div>
+                <p class="pricing-description">Pour étudiants en dentisterie avec email académique</p>
+                <ul class="pricing-features">
+                    <li>✓ 1 étudiant</li>
+                    <li>✓ Jusqu'à 50 patients (fictifs)</li>
+                    <li>✓ Toutes fonctionnalités Starter</li>
+                    <li>✓ Schéma dentaire complet</li>
+                    <li>✓ Enregistrement vocal IA</li>
+                    <li>✓ 5 analyses IA / mois</li>
+                    <li>✓ Mode formation & exercices</li>
+                    <li>✓ Accès aux tutoriels</li>
+                    <li>✓ Valide pendant les études</li>
+                    <li style="color: var(--secondary); font-weight: 600;">📧 Email @univ.edu requis</li>
+                </ul>
+                <a href="dashboard.html" class="btn btn-secondary" style="width: 100%; display: block; text-align: center; background: var(--secondary); border-color: var(--secondary);">S'inscrire</a>
+            </div>
+
             <!-- Plan Starter -->
             <div class="pricing-card">
                 <div class="pricing-header">
@@ -1145,7 +1175,16 @@
             </div>
         </div>
 
-        <div style="text-align: center; margin-top: 60px; padding: 40px; background: rgba(0, 102, 255, 0.1); border-radius: 16px; max-width: 900px; margin-left: auto; margin-right: auto;">
+        <!-- Academic Plan Info -->
+        <div style="text-align: center; margin-top: 50px; padding: 30px; background: linear-gradient(135deg, rgba(0, 200, 150, 0.1) 0%, rgba(0, 102, 255, 0.1) 100%); border: 2px solid var(--secondary); border-radius: 16px; max-width: 900px; margin-left: auto; margin-right: auto;">
+            <p style="font-size: 17px; line-height: 1.8; color: var(--text);">
+                🎓 <strong>Plan Académique :</strong> Nous soutenons la formation des futurs dentistes ! Inscrivez-vous gratuitement avec votre email universitaire
+                (<em style="color: var(--secondary);">@uclouvain.be, @ulb.be, @ugent.be, @kuleuven.be, etc.</em>)
+                et profitez de toutes les fonctionnalités pendant vos études. Parfait pour apprendre et pratiquer !
+            </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding: 40px; background: rgba(0, 102, 255, 0.1); border-radius: 16px; max-width: 900px; margin-left: auto; margin-right: auto;">
             <p style="font-size: 18px; line-height: 1.8; color: var(--text-muted);">
                 💡 <strong>Tous les plans incluent :</strong> Mises à jour automatiques, sécurité médicale maximale,
                 hébergement cloud certifié, conformité RGPD, backups quotidiens, et accès à toutes les nouvelles fonctionnalités IA développées par RCE
