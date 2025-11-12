@@ -1836,7 +1836,7 @@
             setTimeout(function() {
                 hideLoading();
                 
-                const transcription = "Docteur: \"Bonjour Madame Dubois, qu\\'est-ce qui vous amène aujourd\\'hui ?\"\n\nPatient: \"Bonjour Docteur. J\\'ai une douleur à la dent en haut à droite depuis quelques jours.\"\n\nDocteur: \"D\\'accord. Pouvez-vous me décrire cette douleur ? Est-elle constante ou intermittente ?\"\n\nPatient: \"Elle est surtout présente quand je mange ou bois quelque chose de chaud ou froid. C\\'est vraiment désagréable, ça fait mal.\"\n\nDocteur: \"Je comprends. Avez-vous remarqué un gonflement au niveau de la gencive ?\"\n\nPatient: \"Non, pas de gonflement, mais la dent est très sensible quand je la touche.\"\n\nDocteur: \"Très bien. Depuis combien de temps exactement avez-vous cette douleur ?\"\n\nPatient: \"Ça a commencé il y a environ 5 jours. Au début c\\'était léger, mais ça empire.\"\n\nDocteur: \"D\\'accord. Je vais examiner la dent. Ouvrez bien la bouche s\\'il vous plaît...\"";
+                const transcription = "Docteur: \"Bonjour Madame Dubois, qu'est-ce qui vous amène aujourd'hui ?\"\n\nPatient: \"Bonjour Docteur. J'ai une douleur à la dent en haut à droite depuis quelques jours.\"\n\nDocteur: \"D'accord. Pouvez-vous me décrire cette douleur ? Est-elle constante ou intermittente ?\"\n\nPatient: \"Elle est surtout présente quand je mange ou bois quelque chose de chaud ou froid. C'est vraiment désagréable, ça fait mal.\"\n\nDocteur: \"Je comprends. Avez-vous remarqué un gonflement au niveau de la gencive ?\"\n\nPatient: \"Non, pas de gonflement, mais la dent est très sensible quand je la touche.\"\n\nDocteur: \"Très bien. Depuis combien de temps exactement avez-vous cette douleur ?\"\n\nPatient: \"Ça a commencé il y a environ 5 jours. Au début c'était léger, mais ça empire.\"\n\nDocteur: \"D'accord. Je vais examiner la dent. Ouvrez bien la bouche s'il vous plaît...\"";
 
                 document.getElementById('transcriptionText').textContent = transcription;
                 document.getElementById('transcriptionSection').style.display = 'block';
@@ -1856,7 +1856,7 @@
                     
                     addNotification('🤖', 'rgba(139, 92, 246, 0.15)', 'var(--purple)', 
                         'Transcription et anamnèse terminées', 
-                        "L\\'IA a transcrit la consultation et généré l\\'anamnèse automatiquement. Durée: " + 
+                        "L'IA a transcrit la consultation et généré l'anamnèse automatiquement. Durée: " + 
                         Math.floor(recordingSeconds / 60) + ' min ' + (recordingSeconds % 60) + ' sec',
                         'var(--purple)');
                 }, 2000);
@@ -1864,19 +1864,19 @@
         }
 
         function saveAnamnesis() {
-            showLoading("Enregistrement de l\\'anamnèse...");
+            showLoading("Enregistrement de l'anamnèse...");
             
             setTimeout(function() {
                 hideLoading();
                 
                 addToTimeline('ai-generated', 'badge-ai', 'Anamnèse IA enregistrée', 
-                    "Anamnèse générée automatiquement par IA à partir de l\\'enregistrement audio de consultation. " +
+                    "Anamnèse générée automatiquement par IA à partir de l'enregistrement audio de consultation. " +
                     'Motif: Douleur dentaire secteur supérieur droit. Durée enregistrement: ' + 
                     Math.floor(recordingSeconds / 60) + ' min ' + (recordingSeconds % 60) + ' sec');
                 
                 addNotification('💾', 'rgba(52, 199, 89, 0.15)', 'var(--success)', 
                     'Anamnèse enregistrée', 
-                    "L\\'anamnèse a été ajoutée au dossier patient avec succès.",
+                    "L'anamnèse a été ajoutée au dossier patient avec succès.",
                     'var(--success)');
                 
                 document.getElementById('transcriptionSection').style.display = 'none';
@@ -1889,27 +1889,27 @@
 
         function editAnamnesis() {
             const currentText = document.getElementById('anamnesisText').textContent;
-            const newText = prompt("Modifier l\\'anamnèse:", currentText.substring(0, 200) + '...');
+            const newText = prompt("Modifier l'anamnèse:", currentText.substring(0, 200) + '...');
             
             if (newText) {
                 document.getElementById('anamnesisText').textContent = newText;
                 
                 addToTimeline('ai-generated', 'badge-ai', 'Anamnèse modifiée manuellement', 
-                    "Modifications apportées par le praticien à l\\'anamnèse générée par IA.");
+                    "Modifications apportées par le praticien à l'anamnèse générée par IA.");
                 
-                alert("✅ Anamnèse modifiée! N\\'oubliez pas de sauvegarder.");
+                alert("✅ Anamnèse modifiée! N'oubliez pas de sauvegarder.");
             }
         }
 
         function regenerateAnamnesis() {
-            showLoading("Régénération de l\\'anamnèse IA...");
-            
+            showLoading("Régénération de l'anamnèse IA...");
+
             setTimeout(function() {
                 hideLoading();
-                alert('✅ Nouvelle version de l\\'anamnèse générée avec paramètres optimisés!');
-                
-                addToTimeline('ai-generated', 'badge-ai', 'Anamnèse régénérée', 
-                    "Nouvelle version de l\\'anamnèse générée par IA avec analyse approfondie.");
+                alert('✅ Nouvelle version de l\'anamnèse générée avec paramètres optimisés!');
+
+                addToTimeline('ai-generated', 'badge-ai', 'Anamnèse régénérée',
+                    "Nouvelle version de l'anamnèse générée par IA avec analyse approfondie.");
             }, 2500);
         }
         
