@@ -78,28 +78,92 @@
 
         .language-selector {
             position: relative;
+        }
+
+        .language-btn {
             display: flex;
-            gap: 8px;
             align-items: center;
-        }
-
-        .language-selector a {
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 14px;
         }
 
-        .language-selector a:hover {
+        .language-btn:hover {
             background: rgba(255, 255, 255, 0.1);
             border-color: var(--primary);
         }
 
-        .language-selector a.active {
-            background: var(--primary);
-            border-color: var(--primary);
+        .language-btn::after {
+            content: '▼';
+            font-size: 10px;
+            transition: transform 0.3s;
+        }
+
+        .language-selector.active .language-btn::after {
+            transform: rotate(180deg);
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: var(--card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            min-width: 180px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .language-selector.active .language-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .language-dropdown a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .language-dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .language-dropdown a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 20px;
+        }
+
+        .language-dropdown a.active {
+            background: rgba(0, 102, 255, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .language-dropdown a.active::before {
+            content: '✓';
+            margin-right: -8px;
+            color: var(--primary);
         }
 
         .btn {
@@ -735,10 +799,13 @@
                 <a href="#pricing">Prijzen</a>
                 <a href="#demo">Demo</a>
                 <div class="language-selector">
-                    <a href="index.html">FR</a>
-                    <a href="index-nl.html" class="active">NL</a>
-                    <a href="index-en.html">EN</a>
-                    <a href="index-de.html">DE</a>
+                    <div class="language-btn">🇳🇱 NL</div>
+                    <div class="language-dropdown">
+                        <a href="index.html">🇫🇷 Français</a>
+                        <a href="index-nl.html" class="active">🇳🇱 Nederlands</a>
+                        <a href="index-en.html">🇬🇧 English</a>
+                        <a href="index-de.html">🇩🇪 Deutsch</a>
+                    </div>
                 </div>
                 <a href="dashboard.html" class="btn btn-primary">Toegang tot App →</a>
             </div>
@@ -1280,6 +1347,34 @@
     </footer>
 
     <script>
+        // Language selector toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageSelector = document.querySelector('.language-selector');
+            const languageBtn = document.querySelector('.language-btn');
+
+            if (languageBtn) {
+                languageBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    languageSelector.classList.toggle('active');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!languageSelector.contains(e.target)) {
+                        languageSelector.classList.remove('active');
+                    }
+                });
+
+                // Close dropdown when selecting a language
+                const languageLinks = document.querySelectorAll('.language-dropdown a');
+                languageLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        languageSelector.classList.remove('active');
+                    });
+                });
+            }
+        });
+
         // Toggle feature card details
         function toggleFeature(card) {
             const details = card.querySelector('.feature-details');
