@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schéma Dentaire Professionnel - DentalCockpit Pro</title>
+    <title>Schéma Dentaire - DentalCockpit Pro</title>
     <style>
         * {
             margin: 0;
@@ -39,70 +39,135 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: var(--bg-main);
             color: var(--text-primary);
             line-height: 1.6;
-            padding: 20px;
         }
 
-        .header {
+        .container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
             background: var(--bg-card);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .patient-info h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-
-        .patient-meta {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .header-actions {
+            border-right: 1px solid var(--border);
+            padding: 20px;
+            overflow-y: auto;
             display: flex;
-            gap: 10px;
+            flex-direction: column;
         }
 
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
+        .sidebar-content {
+            flex: 1;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 14px;
+            gap: 12px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .btn-primary {
+        .logo-icon {
+            font-size: 32px;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .nav-section {
+            margin-bottom: 25px;
+        }
+
+        .nav-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
             background: var(--primary);
             color: white;
         }
 
-        .btn-primary:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
         }
 
-        .btn-secondary {
-            background: var(--bg-hover);
-            color: var(--text-primary);
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-card);
             border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 18px;
         }
 
-        .btn-secondary:hover {
-            background: var(--border);
+        .icon-btn:hover {
+            background: var(--bg-hover);
+            transform: translateY(-2px);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px var(--shadow);
+            margin-bottom: 20px;
         }
 
         /* Tools Panel */
@@ -110,11 +175,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 10px;
-            padding: 20px;
-            background: var(--bg-card);
-            border-radius: 12px;
             margin-bottom: 20px;
-            border: 1px solid var(--border);
         }
 
         .tool-btn {
@@ -153,11 +214,7 @@
 
         /* Odontogram */
         .odontogram {
-            background: var(--bg-card);
-            border-radius: 12px;
             padding: 30px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
         }
 
         .arch-section {
@@ -313,10 +370,9 @@
             gap: 15px;
             justify-content: center;
             padding: 20px;
-            background: var(--bg-card);
+            background: var(--bg-hover);
             border-radius: 12px;
             margin-bottom: 20px;
-            border: 1px solid var(--border);
         }
 
         .legend-item {
@@ -338,7 +394,6 @@
             padding: 15px 20px;
             background: var(--bg-hover);
             border-radius: 8px;
-            margin-top: 20px;
             border-left: 4px solid var(--primary);
         }
 
@@ -370,140 +425,290 @@
             font-weight: 700;
             border: 1px solid var(--border);
         }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="patient-info">
-            <h1>🦷 Schéma Dentaire - Marie Dubois</h1>
-            <div class="patient-meta">NISS: 85.07.30-123.45 • Dernière visite: 12/11/2025</div>
-        </div>
-        <div class="header-actions">
-            <button class="btn btn-secondary" onclick="toggleTheme()" id="themeToggle">
-                🌙 Mode
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <div class="logo">
+                    <div class="logo-icon">🦷</div>
+                    <div class="logo-text">DentalCockpit Pro</div>
+                </div>
+
+                <nav>
+                <div class="nav-section">
+                    <div class="nav-title">Navigation</div>
+                    <a href="index.html" class="nav-item">
+                        <span>📊</span>
+                        <span>Dashboard Patient</span>
+                    </a>
+                    <a href="patients.html" class="nav-item">
+                        <span>👥</span>
+                        <span>Patients</span>
+                    </a>
+                    <a href="agenda.html" class="nav-item">
+                        <span>📅</span>
+                        <span>Agenda</span>
+                    </a>
+                    <a href="treatment.html" class="nav-item">
+                        <span>🎯</span>
+                        <span>Plan de Traitement</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Clinique</div>
+                    <a href="dental-chart.html" class="nav-item active">
+                        <span>🦷</span>
+                        <span>Schéma Dentaire</span>
+                    </a>
+                    <a href="paro.html" class="nav-item">
+                        <span>📊</span>
+                        <span>Parodontologie</span>
+                    </a>
+                    <a href="ortho.html" class="nav-item">
+                        <span>🔧</span>
+                        <span>Orthodontie</span>
+                    </a>
+                    <a href="prescriptions.html" class="nav-item">
+                        <span>💊</span>
+                        <span>Prescriptions</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Imagerie Médicale</div>
+                    <a href="xrays.html" class="nav-item">
+                        <span>📷</span>
+                        <span>Radiographies X</span>
+                    </a>
+                    <a href="scanner3d.html" class="nav-item">
+                        <span>🔬</span>
+                        <span>Scanner 3D</span>
+                    </a>
+                    <a href="photos.html" class="nav-item">
+                        <span>🖼️</span>
+                        <span>Photos Intra-orales</span>
+                    </a>
+                    <a href="camera.html" class="nav-item">
+                        <span>📸</span>
+                        <span>Caméra Temps Réel</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Intelligence Artificielle</div>
+                    <a href="ai-analysis.html" class="nav-item">
+                        <span>🤖</span>
+                        <span>Analyses IA</span>
+                    </a>
+                    <a href="ai-reports.html" class="nav-item">
+                        <span>📈</span>
+                        <span>Rapports Intelligents</span>
+                    </a>
+                    <a href="ai-history.html" class="nav-item">
+                        <span>🔄</span>
+                        <span>Historique Complet IA</span>
+                    </a>
+                    <a href="ai-realtime.html" class="nav-item">
+                        <span>⚡</span>
+                        <span>IA Temps Réel</span>
+                    </a>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">Administration</div>
+                    <a href="inami.html" class="nav-item">
+                        <span>💳</span>
+                        <span>INAMI / e-Health</span>
+                    </a>
+                    <a href="mutuelles.html" class="nav-item">
+                        <span>🏥</span>
+                        <span>Mutuelles</span>
+                    </a>
+                    <a href="certificates.html" class="nav-item">
+                        <span>📄</span>
+                        <span>Certificats</span>
+                    </a>
+                    <a href="billing.html" class="nav-item">
+                        <span>📊</span>
+                        <span>Facturation</span>
+                    </a>
+                </div>
+            </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div style="text-align: center;">
+                    <div style="font-size: 9px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Design by</div>
+                    <div style="font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px;">Ismail Sialyen</div>
+                    <div style="font-size: 9px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Powered by</div>
+                    <div style="font-size: 13px; font-weight: 700; color: var(--primary); margin-top: 2px;">RCE</div>
+                    <div style="font-size: 8px; color: var(--text-secondary); margin-top: 2px;">AI Engine</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="topbar">
+                <div class="page-title">🦷 Schéma Dentaire - Marie Dubois</div>
+                <div class="icon-btn" onclick="toggleTheme()" id="themeToggle" title="Changer le thème">
+                    🌙
+                </div>
+            </div>
+
+            <!-- Tools Panel -->
+            <div class="card">
+                <div class="tools-panel">
+                    <button class="tool-btn" onclick="selectTreatment('healthy')" id="tool-healthy">
+                        <div class="color-indicator" style="background: var(--bg-hover);"></div>
+                        Sain
+                    </button>
+                    <button class="tool-btn" onclick="selectTreatment('caries')" id="tool-caries">
+                        <div class="color-indicator" style="background: var(--danger);"></div>
+                        Carie
+                    </button>
+                    <button class="tool-btn" onclick="selectTreatment('filled')" id="tool-filled">
+                        <div class="color-indicator" style="background: var(--warning);"></div>
+                        Obturation
+                    </button>
+                    <button class="tool-btn" onclick="selectTreatment('crown')" id="tool-crown">
+                        <div class="color-indicator" style="background: #FFD700;"></div>
+                        Couronne
+                    </button>
+                    <button class="tool-btn" onclick="selectTreatment('implant')" id="tool-implant">
+                        <div class="color-indicator" style="background: var(--secondary);"></div>
+                        Implant
+                    </button>
+                    <button class="tool-btn" onclick="selectTreatment('missing')" id="tool-missing">
+                        <div class="color-indicator" style="background: var(--border);"></div>
+                        Absent
+                    </button>
+                    <button class="tool-btn" onclick="selectTreatment('root-canal')" id="tool-root-canal">
+                        <div class="color-indicator" style="background: var(--purple);"></div>
+                        Canal
+                    </button>
+                    <button class="tool-btn" onclick="selectTreatment('bridge')" id="tool-bridge">
+                        <div class="color-indicator" style="background: #F59E0B;"></div>
+                        Bridge
+                    </button>
+                </div>
+            </div>
+
+            <!-- Odontogram -->
+            <div class="card">
+                <div class="odontogram">
+                    <!-- Upper Arch -->
+                    <div class="arch-section">
+                        <div class="arch-label">▼ ARCADE SUPÉRIEURE - MAXILLAIRE ▼</div>
+                        <div class="quadrant-info">
+                            <span>QUADRANT 1 (Droit) →</span>
+                            <span>← QUADRANT 2 (Gauche)</span>
+                        </div>
+                        <div class="teeth-grid" id="upper-teeth">
+                            <!-- Teeth 18-11 and 21-28 will be generated here -->
+                        </div>
+                    </div>
+
+                    <!-- Lower Arch -->
+                    <div class="arch-section">
+                        <div class="teeth-grid" id="lower-teeth">
+                            <!-- Teeth 48-41 and 31-38 will be generated here -->
+                        </div>
+                        <div class="quadrant-info">
+                            <span>QUADRANT 4 (Droit) →</span>
+                            <span>← QUADRANT 3 (Gauche)</span>
+                        </div>
+                        <div class="arch-label">▲ ARCADE INFÉRIEURE - MANDIBULE ▲</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="card">
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-hover) 100%);"></div>
+                        <span>Sain</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #FF3B30 0%, #CC2E26 100%);"></div>
+                        <span>Carie</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #FF9500 0%, #CC7700 100%);"></div>
+                        <span>Obturation</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);"></div>
+                        <span>Couronne</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #00C896 0%, #00A076 100%);"></div>
+                        <span>Implant</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);"></div>
+                        <span>Canal Radiculaire</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);"></div>
+                        <span>Bridge</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: repeating-linear-gradient(45deg, var(--bg-main), var(--bg-main) 5px, var(--border) 5px, var(--border) 10px);"></div>
+                        <span>Absent/Extrait</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Keyboard Shortcuts -->
+            <div class="card">
+                <div class="shortcuts">
+                    <div class="shortcuts-title">⌨️ Raccourcis Clavier</div>
+                    <div class="shortcuts-grid">
+                        <div class="shortcut"><span class="key">C</span> Carie</div>
+                        <div class="shortcut"><span class="key">O</span> Obturation</div>
+                        <div class="shortcut"><span class="key">K</span> Couronne</div>
+                        <div class="shortcut"><span class="key">I</span> Implant</div>
+                        <div class="shortcut"><span class="key">M</span> Absent</div>
+                        <div class="shortcut"><span class="key">R</span> Canal</div>
+                        <div class="shortcut"><span class="key">S</span> Sain</div>
+                        <div class="shortcut"><span class="key">Ctrl+S</span> Sauvegarder</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <button class="btn btn-primary" onclick="saveDentalChart()" style="width: 100%;">
+                💾 Enregistrer le Schéma Dentaire
             </button>
-            <button class="btn btn-secondary" onclick="history.back()">
-                ← Retour
-            </button>
-            <button class="btn btn-primary" onclick="saveDentalChart()">
-                💾 Enregistrer
-            </button>
-        </div>
-    </div>
-
-    <!-- Tools Panel -->
-    <div class="tools-panel">
-        <button class="tool-btn" onclick="selectTreatment('healthy')" id="tool-healthy">
-            <div class="color-indicator" style="background: var(--bg-hover);"></div>
-            Sain
-        </button>
-        <button class="tool-btn" onclick="selectTreatment('caries')" id="tool-caries">
-            <div class="color-indicator" style="background: var(--danger);"></div>
-            Carie
-        </button>
-        <button class="tool-btn" onclick="selectTreatment('filled')" id="tool-filled">
-            <div class="color-indicator" style="background: var(--warning);"></div>
-            Obturation
-        </button>
-        <button class="tool-btn" onclick="selectTreatment('crown')" id="tool-crown">
-            <div class="color-indicator" style="background: #FFD700;"></div>
-            Couronne
-        </button>
-        <button class="tool-btn" onclick="selectTreatment('implant')" id="tool-implant">
-            <div class="color-indicator" style="background: var(--secondary);"></div>
-            Implant
-        </button>
-        <button class="tool-btn" onclick="selectTreatment('missing')" id="tool-missing">
-            <div class="color-indicator" style="background: var(--border);"></div>
-            Absent
-        </button>
-        <button class="tool-btn" onclick="selectTreatment('root-canal')" id="tool-root-canal">
-            <div class="color-indicator" style="background: var(--purple);"></div>
-            Canal
-        </button>
-        <button class="tool-btn" onclick="selectTreatment('bridge')" id="tool-bridge">
-            <div class="color-indicator" style="background: #F59E0B;"></div>
-            Bridge
-        </button>
-    </div>
-
-    <!-- Odontogram -->
-    <div class="odontogram">
-        <!-- Upper Arch -->
-        <div class="arch-section">
-            <div class="arch-label">▼ ARCADE SUPÉRIEURE - MAXILLAIRE ▼</div>
-            <div class="quadrant-info">
-                <span>QUADRANT 1 (Droit) →</span>
-                <span>← QUADRANT 2 (Gauche)</span>
-            </div>
-            <div class="teeth-grid" id="upper-teeth">
-                <!-- Teeth 18-11 and 21-28 will be generated here -->
-            </div>
-        </div>
-
-        <!-- Lower Arch -->
-        <div class="arch-section">
-            <div class="teeth-grid" id="lower-teeth">
-                <!-- Teeth 48-41 and 31-38 will be generated here -->
-            </div>
-            <div class="quadrant-info">
-                <span>QUADRANT 4 (Droit) →</span>
-                <span>← QUADRANT 3 (Gauche)</span>
-            </div>
-            <div class="arch-label">▲ ARCADE INFÉRIEURE - MANDIBULE ▲</div>
-        </div>
-    </div>
-
-    <!-- Legend -->
-    <div class="legend">
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-hover) 100%);"></div>
-            <span>Sain</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(135deg, #FF3B30 0%, #CC2E26 100%);"></div>
-            <span>Carie</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(135deg, #FF9500 0%, #CC7700 100%);"></div>
-            <span>Obturation</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);"></div>
-            <span>Couronne</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(135deg, #00C896 0%, #00A076 100%);"></div>
-            <span>Implant</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(135deg, #9333EA 0%, #7C3AED 100%);"></div>
-            <span>Canal Radiculaire</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);"></div>
-            <span>Bridge</span>
-        </div>
-        <div class="legend-item">
-            <div class="legend-color" style="background: repeating-linear-gradient(45deg, var(--bg-main), var(--bg-main) 5px, var(--border) 5px, var(--border) 10px);"></div>
-            <span>Absent/Extrait</span>
-        </div>
-    </div>
-
-    <!-- Keyboard Shortcuts -->
-    <div class="shortcuts">
-        <div class="shortcuts-title">⌨️ Raccourcis Clavier</div>
-        <div class="shortcuts-grid">
-            <div class="shortcut"><span class="key">C</span> Carie</div>
-            <div class="shortcut"><span class="key">O</span> Obturation</div>
-            <div class="shortcut"><span class="key">K</span> Couronne</div>
-            <div class="shortcut"><span class="key">I</span> Implant</div>
-            <div class="shortcut"><span class="key">M</span> Absent</div>
-            <div class="shortcut"><span class="key">R</span> Canal</div>
-            <div class="shortcut"><span class="key">S</span> Sain</div>
-            <div class="shortcut"><span class="key">Ctrl+S</span> Sauvegarder</div>
-        </div>
+        </main>
     </div>
 
     <script>
@@ -520,14 +725,6 @@
         };
 
         let selectedTreatment = null;
-
-        // Tooth emoji icons
-        const toothIcons = {
-            molar: '🦷',
-            premolar: '🦷',
-            canine: '🦷',
-            incisor: '🦷'
-        };
 
         // Initialize
         function initDentalChart() {
@@ -661,6 +858,7 @@
             alert('✅ Schéma dentaire enregistré avec succès!\n\n' + Object.keys(toothStatuses).length + ' dents documentées.');
         }
 
+        // Theme management
         function toggleTheme() {
             const html = document.documentElement;
             const themeToggle = document.getElementById('themeToggle');
@@ -668,11 +866,11 @@
 
             if (currentTheme === 'light') {
                 html.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '🌙 Mode';
+                themeToggle.textContent = '🌙';
                 localStorage.setItem('theme', 'dark');
             } else {
                 html.setAttribute('data-theme', 'light');
-                themeToggle.textContent = '☀️ Mode';
+                themeToggle.textContent = '☀️';
                 localStorage.setItem('theme', 'light');
             }
         }
@@ -684,10 +882,10 @@
 
             if (savedTheme === 'light') {
                 html.setAttribute('data-theme', 'light');
-                if (themeToggle) themeToggle.textContent = '☀️ Mode';
+                if (themeToggle) themeToggle.textContent = '☀️';
             } else {
                 html.setAttribute('data-theme', 'dark');
-                if (themeToggle) themeToggle.textContent = '🌙 Mode';
+                if (themeToggle) themeToggle.textContent = '🌙';
             }
         }
 
