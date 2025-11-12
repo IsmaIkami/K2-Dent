@@ -1083,19 +1083,19 @@
             <nav>
                 <div class="nav-section">
                     <div class="nav-title">Navigation</div>
-                    <a href="#" class="nav-item active" data-page="dashboard" onclick="navigateTo(event, 'dashboard')">
+                    <a href="index.html" class="nav-item active">
                         <span>📊</span>
                         <span>Dashboard Patient</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="patients" onclick="navigateTo(event, 'patients')">
+                    <a href="patients.html" class="nav-item">
                         <span>👥</span>
                         <span>Patients</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="agenda" onclick="navigateTo(event, 'agenda')">
+                    <a href="agenda.html" class="nav-item">
                         <span>📅</span>
                         <span>Agenda</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="treatment" onclick="navigateTo(event, 'treatment')">
+                    <a href="treatment.html" class="nav-item">
                         <span>🎯</span>
                         <span>Plan de Traitement</span>
                     </a>
@@ -1103,19 +1103,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Imagerie Médicale</div>
-                    <a href="#" class="nav-item" data-page="xrays" onclick="navigateTo(event, 'xrays')">
+                    <a href="xrays.html" class="nav-item">
                         <span>📷</span>
                         <span>Radiographies X</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="scanner3d" onclick="navigateTo(event, 'scanner3d')">
+                    <a href="scanner3d.html" class="nav-item">
                         <span>🔬</span>
                         <span>Scanner 3D</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="photos" onclick="navigateTo(event, 'photos')">
+                    <a href="photos.html" class="nav-item">
                         <span>🖼️</span>
                         <span>Photos Intra-orales</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="camera" onclick="navigateTo(event, 'camera')">
+                    <a href="camera.html" class="nav-item">
                         <span>📸</span>
                         <span>Caméra Temps Réel</span>
                     </a>
@@ -1123,19 +1123,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Intelligence Artificielle</div>
-                    <a href="#" class="nav-item" data-page="ai-analysis" onclick="navigateTo(event, 'ai-analysis')">
+                    <a href="ai-analysis.html" class="nav-item">
                         <span>🤖</span>
                         <span>Analyses IA</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="ai-reports" onclick="navigateTo(event, 'ai-reports')">
+                    <a href="ai-reports.html" class="nav-item">
                         <span>📈</span>
                         <span>Rapports Intelligents</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="ai-history" onclick="navigateTo(event, 'ai-history')">
+                    <a href="ai-history.html" class="nav-item">
                         <span>🔄</span>
                         <span>Historique Complet IA</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="ai-realtime" onclick="navigateTo(event, 'ai-realtime')">
+                    <a href="ai-realtime.html" class="nav-item">
                         <span>⚡</span>
                         <span>IA Temps Réel</span>
                     </a>
@@ -1143,19 +1143,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Administration</div>
-                    <a href="#" class="nav-item" data-page="inami" onclick="navigateTo(event, 'inami')">
+                    <a href="inami.html" class="nav-item">
                         <span>💳</span>
                         <span>INAMI / e-Health</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="mutuelles" onclick="navigateTo(event, 'mutuelles')">
+                    <a href="mutuelles.html" class="nav-item">
                         <span>🏥</span>
                         <span>Mutuelles</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="certificates" onclick="navigateTo(event, 'certificates')">
+                    <a href="certificates.html" class="nav-item">
                         <span>📄</span>
                         <span>Certificats</span>
                     </a>
-                    <a href="#" class="nav-item" data-page="billing" onclick="navigateTo(event, 'billing')">
+                    <a href="billing.html" class="nav-item">
                         <span>📊</span>
                         <span>Facturation</span>
                     </a>
@@ -1186,8 +1186,6 @@
 
             <!-- Content -->
             <div class="content" id="mainContent">
-                <!-- Dashboard Page -->
-                <div id="page-dashboard" class="page-content">
                 <!-- Patient Cockpit Layout -->
                 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
                     <!-- Patient Info Card -->
@@ -1581,289 +1579,6 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                <!-- End Dashboard Page -->
-
-                <!-- Patients Page -->
-                <div id="page-patients" class="page-content" style="display: none;">
-                    <div style="margin-bottom: 24px;">
-                        <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">👥 Gestion des Patients</h1>
-                        <p style="color: var(--text-secondary);">Base de données complète avec 847 patients</p>
-                    </div>
-
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 24px;">
-                        <div style="display: grid; grid-template-columns: 1fr auto auto; gap: 12px;">
-                            <input type="text" placeholder="🔍 Rechercher patient..." class="form-input">
-                            <button class="btn btn-secondary">🔽 Filtres</button>
-                            <button class="btn btn-primary">➕ Nouveau Patient</button>
-                        </div>
-                    </div>
-
-                    <div class="dashboard-grid">
-                        <div class="stat-card" onclick="alert('Filtrer: Patients actifs')">
-                            <div class="stat-header">
-                                <div>
-                                    <div class="stat-title">Patients Actifs</div>
-                                    <div class="stat-value">847</div>
-                                </div>
-                                <div class="stat-icon" style="background: rgba(52, 199, 89, 0.15); color: var(--success);">👥</div>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-header">
-                                <div>
-                                    <div class="stat-title">Nouveaux (30j)</div>
-                                    <div class="stat-value">42</div>
-                                </div>
-                                <div class="stat-icon" style="background: rgba(0, 102, 255, 0.15); color: var(--primary);">➕</div>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-header">
-                                <div>
-                                    <div class="stat-title">Rendez-vous Auj.</div>
-                                    <div class="stat-value">28</div>
-                                </div>
-                                <div class="stat-icon" style="background: rgba(255, 149, 0, 0.15); color: var(--warning);">📅</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-top: 24px;">
-                        <h3 style="margin-bottom: 20px; font-size: 18px;">Patients Récents</h3>
-                        <div style="display: grid; gap: 12px;">
-                            <div style="background: var(--bg-main); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
-                                <div style="display: flex; align-items: center; gap: 16px;">
-                                    <div style="width: 50px; height: 50px; background: rgba(0, 102, 255, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">👤</div>
-                                    <div>
-                                        <div style="font-weight: 600; font-size: 16px;">Marie Dubois</div>
-                                        <div style="font-size: 13px; color: var(--text-secondary);">NISS: 83.03.05-123.45 · +32 475 12 34 56</div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-primary" onclick="navigateTo(event, 'dashboard')">Voir Dossier</button>
-                            </div>
-                            <div style="background: var(--bg-main); padding: 20px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center;">
-                                <div style="display: flex; align-items: center; gap: 16px;">
-                                    <div style="width: 50px; height: 50px; background: rgba(0, 200, 150, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">👤</div>
-                                    <div>
-                                        <div style="font-weight: 600; font-size: 16px;">Jean Martin</div>
-                                        <div style="font-size: 13px; color: var(--text-secondary);">NISS: 88.07.15-234.56 · +32 476 23 45 67</div>
-                                    </div>
-                                </div>
-                                <button class="btn btn-secondary">Voir Dossier</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Patients Page -->
-
-                <!-- Agenda Page -->
-                <div id="page-agenda" class="page-content" style="display: none;">
-                    <div style="margin-bottom: 24px;">
-                        <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 8px;">📅 Agenda & Planning</h1>
-                        <p style="color: var(--text-secondary);">Gestion des rendez-vous et planning du cabinet</p>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: 1fr 350px; gap: 24px;">
-                        <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                                <h2 style="font-size: 20px; font-weight: 700;">Mardi 12 Novembre 2025</h2>
-                                <div style="display: flex; gap: 8px;">
-                                    <button class="btn btn-icon btn-secondary">◀️</button>
-                                    <button class="btn btn-icon btn-secondary">▶️</button>
-                                    <button class="btn btn-primary">➕ Nouveau RDV</button>
-                                </div>
-                            </div>
-
-                            <div style="display: grid; gap: 12px;">
-                                <div style="background: var(--bg-main); border-left: 4px solid var(--primary); padding: 16px; border-radius: 8px;">
-                                    <div style="display: flex; justify-content: between; align-items: flex-start; gap: 16px;">
-                                        <div style="font-weight: 700; color: var(--primary); min-width: 60px;">09:00</div>
-                                        <div style="flex: 1;">
-                                            <div style="font-weight: 600;">Sophie Laurent - Détartrage</div>
-                                            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Durée: 45 min · Cabinet 1</div>
-                                        </div>
-                                        <button class="btn btn-icon btn-secondary">✏️</button>
-                                    </div>
-                                </div>
-                                <div style="background: var(--bg-main); border-left: 4px solid var(--secondary); padding: 16px; border-radius: 8px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
-                                        <div style="font-weight: 700; color: var(--secondary); min-width: 60px;">10:30</div>
-                                        <div style="flex: 1;">
-                                            <div style="font-weight: 600;">Jean Martin - Traitement Endodontique</div>
-                                            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Durée: 90 min · Cabinet 1</div>
-                                        </div>
-                                        <button class="btn btn-icon btn-secondary">✏️</button>
-                                    </div>
-                                </div>
-                                <div style="background: var(--bg-main); border-left: 4px solid var(--warning); padding: 16px; border-radius: 8px;">
-                                    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;">
-                                        <div style="font-weight: 700; color: var(--warning); min-width: 60px;">14:00</div>
-                                        <div style="flex: 1;">
-                                            <div style="font-weight: 600;">Marie Dubois - Consultation Contrôle</div>
-                                            <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Durée: 30 min · Cabinet 2</div>
-                                        </div>
-                                        <button class="btn btn-icon btn-secondary">✏️</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 20px;">
-                                <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">Statistiques Journée</h3>
-                                <div class="data-row">
-                                    <span class="data-label">Total RDV</span>
-                                    <span class="data-value">12</span>
-                                </div>
-                                <div class="data-row">
-                                    <span class="data-label">Confirmés</span>
-                                    <span class="data-value" style="color: var(--success);">10</span>
-                                </div>
-                                <div class="data-row">
-                                    <span class="data-label">En attente</span>
-                                    <span class="data-value" style="color: var(--warning);">2</span>
-                                </div>
-                                <div class="data-row">
-                                    <span class="data-label">Taux occupation</span>
-                                    <span class="data-value">87%</span>
-                                </div>
-                            </div>
-
-                            <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 24px;">
-                                <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">Rappels IA</h3>
-                                <div style="background: rgba(255, 149, 0, 0.1); padding: 12px; border-radius: 8px; border-left: 3px solid var(--warning); margin-bottom: 12px;">
-                                    <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">⚠️ Patient en retard</div>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">Sophie Laurent - 15 min</div>
-                                </div>
-                                <div style="background: rgba(52, 199, 89, 0.1); padding: 12px; border-radius: 8px; border-left: 3px solid var(--success);">
-                                    <div style="font-size: 13px; font-weight: 600; margin-bottom: 4px;">✓ Préparation OK</div>
-                                    <div style="font-size: 12px; color: var(--text-secondary);">Cabinet 1 prêt pour 10:30</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Agenda Page -->
-
-                <!-- More pages will be added here -->
-                <div id="page-treatment" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">🎯 Plan de Traitement</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">🎯</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Plan de Traitement</h2>
-                        <p style="color: var(--text-secondary);">Gestion complète des plans de traitement avec suivi IA et devis automatiques</p>
-                    </div>
-                </div>
-
-                <div id="page-xrays" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">📷 Radiographies X</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">📷</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Radiographies X</h2>
-                        <p style="color: var(--text-secondary);">Bibliothèque complète des radiographies avec analyse IA automatique</p>
-                    </div>
-                </div>
-
-                <div id="page-scanner3d" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">🔬 Scanner 3D</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">🔬</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Scanner 3D</h2>
-                        <p style="color: var(--text-secondary);">Acquisition et visualisation 3D avec reconstruction IA</p>
-                    </div>
-                </div>
-
-                <div id="page-photos" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">🖼️ Photos Intra-orales</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">🖼️</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Photos Intra-orales</h2>
-                        <p style="color: var(--text-secondary);">Gestion des photos cliniques avec détection IA des pathologies</p>
-                    </div>
-                </div>
-
-                <div id="page-camera" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">📸 Caméra Temps Réel</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">📸</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Caméra Intra-orale en Direct</h2>
-                        <p style="color: var(--text-secondary);">Visualisation temps réel avec annotations IA instantanées</p>
-                    </div>
-                </div>
-
-                <div id="page-ai-analysis" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">🤖 Analyses IA</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">🤖</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Centre d'Analyses IA</h2>
-                        <p style="color: var(--text-secondary);">Toutes les analyses automatiques avec deep learning médical</p>
-                    </div>
-                </div>
-
-                <div id="page-ai-reports" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">📈 Rapports Intelligents</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">📈</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Rapports Intelligents</h2>
-                        <p style="color: var(--text-secondary);">Génération automatique de rapports médicaux par IA</p>
-                    </div>
-                </div>
-
-                <div id="page-ai-history" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">🔄 Historique Complet IA</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">🔄</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Historique Complet IA</h2>
-                        <p style="color: var(--text-secondary);">Toutes les analyses et modifications avec traçabilité complète</p>
-                    </div>
-                </div>
-
-                <div id="page-ai-realtime" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">⚡ IA Temps Réel</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">⚡</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">IA Temps Réel</h2>
-                        <p style="color: var(--text-secondary);">Monitoring en direct avec alertes et suggestions instantanées</p>
-                    </div>
-                </div>
-
-                <div id="page-inami" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">💳 INAMI / e-Health</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">💳</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">INAMI & e-Health</h2>
-                        <p style="color: var(--text-secondary);">Intégration complète avec le système belge de santé</p>
-                    </div>
-                </div>
-
-                <div id="page-mutuelles" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">🏥 Mutuelles</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">🏥</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Gestion Mutuelles</h2>
-                        <p style="color: var(--text-secondary);">Vérification automatique et gestion des remboursements</p>
-                    </div>
-                </div>
-
-                <div id="page-certificates" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">📄 Certificats</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">📄</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Certificats Médicaux</h2>
-                        <p style="color: var(--text-secondary);">Génération automatique de certificats avec templates intelligents</p>
-                    </div>
-                </div>
-
-                <div id="page-billing" class="page-content" style="display: none;">
-                    <h1 style="font-size: 32px; font-weight: 700; margin-bottom: 24px;">📊 Facturation</h1>
-                    <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 48px; text-align: center;">
-                        <div style="font-size: 64px; margin-bottom: 24px;">📊</div>
-                        <h2 style="font-size: 24px; margin-bottom: 12px;">Facturation & Comptabilité</h2>
-                        <p style="color: var(--text-secondary);">Gestion complète de la facturation avec exports comptables</p>
-                    </div>
-                </div>
-
             </div>
         </main>
     </div>
@@ -2590,32 +2305,6 @@
 
         // Initialize theme on page load
         document.addEventListener('DOMContentLoaded', loadTheme);
-
-        // Navigation function
-        function navigateTo(event, pageName) {
-            event.preventDefault();
-            console.log('Navigating to:', pageName);
-
-            // Hide all pages
-            document.querySelectorAll('.page-content').forEach(page => {
-                page.style.display = 'none';
-            });
-
-            // Show the selected page
-            const targetPage = document.getElementById(`page-${pageName}`);
-            if (targetPage) {
-                targetPage.style.display = 'block';
-            }
-
-            // Update active nav item
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
 
         // Simulate real-time data updates
         setInterval(() => {
