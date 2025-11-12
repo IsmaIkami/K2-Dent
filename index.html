@@ -1824,43 +1824,59 @@
         }
 
         function stopRecording() {
-            isRecording = false;
-            clearInterval(recordingTimer);
-            
-            document.getElementById('stopRecordBtn').style.display = 'none';
-            document.getElementById('recordingStatusDot').style.background = 'var(--warning)';
-            document.getElementById('recordingStatusText').textContent = 'Traitement en cours...';
-            
-            showLoading('Transcription et analyse IA en cours...');
-            
-            setTimeout(function() {
-                hideLoading();
+            console.log('stopRecording called');
+            try {
+                isRecording = false;
+                clearInterval(recordingTimer);
+
+                document.getElementById('stopRecordBtn').style.display = 'none';
+                document.getElementById('recordingStatusDot').style.background = 'var(--warning)';
+                document.getElementById('recordingStatusText').textContent = 'Traitement en cours...';
+
+                showLoading('Transcription et analyse IA en cours...');
+                console.log('Starting transcription timeout...');
+
+                setTimeout(function() {
+                    console.log('Transcription phase complete');
+                    hideLoading();
                 
                 const transcription = "Docteur: \"Bonjour Madame Dubois, qu'est-ce qui vous amène aujourd'hui ?\"\n\nPatient: \"Bonjour Docteur. J'ai une douleur à la dent en haut à droite depuis quelques jours.\"\n\nDocteur: \"D'accord. Pouvez-vous me décrire cette douleur ? Est-elle constante ou intermittente ?\"\n\nPatient: \"Elle est surtout présente quand je mange ou bois quelque chose de chaud ou froid. C'est vraiment désagréable, ça fait mal.\"\n\nDocteur: \"Je comprends. Avez-vous remarqué un gonflement au niveau de la gencive ?\"\n\nPatient: \"Non, pas de gonflement, mais la dent est très sensible quand je la touche.\"\n\nDocteur: \"Très bien. Depuis combien de temps exactement avez-vous cette douleur ?\"\n\nPatient: \"Ça a commencé il y a environ 5 jours. Au début c'était léger, mais ça empire.\"\n\nDocteur: \"D'accord. Je vais examiner la dent. Ouvrez bien la bouche s'il vous plaît...\"";
 
+                console.log('Setting transcription text...');
                 document.getElementById('transcriptionText').textContent = transcription;
                 document.getElementById('transcriptionSection').style.display = 'block';
-                
+                console.log('Transcription displayed, starting anamnesis timeout...');
+
                 setTimeout(function() {
+                    console.log('Generating anamnesis...');
                     const anamnesis = "**Motif de consultation:**\nDouleur dentaire secteur supérieur droit depuis 5 jours\n\n**Histoire de la maladie actuelle:**\n- Début: Il y a 5 jours, évolution progressive\n- Caractère: Douleur provoquée par stimuli thermiques (chaud/froid)\n- Intensité: Initialement légère, augmentation progressive\n- Sensibilité au toucher de la dent\n- Pas de gonflement gingival visible\n\n**Symptômes associés:**\n- Sensibilité thermique marquée\n- Douleur à la percussion légère\n- Pas d'œdème\n- Pas de fièvre mentionnée\n\n**Antécédents médicaux pertinents:**\n- Diabète Type 2 (sous Metformine 850mg)\n- Allergies: Pénicilline, Latex\n\n**Hypothèses diagnostiques:**\n1. Pulpite (réversible ou irréversible) - Probabilité haute\n2. Carie dentaire profonde - À confirmer par examen clinique\n3. Fissure/fêlure dentaire - À exclure\n\n**Examens complémentaires nécessaires:**\n- Examen clinique détaillé de la dent concernée\n- Test de vitalité pulpaire\n- Radiographie rétro-alvéolaire de la zone\n- Test de percussion et palpation\n\n**Plan de traitement proposé:**\n1. Examen clinique approfondi immédiat\n2. Radiographie pour évaluation de la carie/pulpe\n3. Si pulpite irréversible: traitement endodontique\n4. Si pulpite réversible: restauration avec protection pulpaire\n\n**Points d'attention:**\n⚠️ Patient diabétique - Surveillance accrue de la cicatrisation\n⚠️ Douleur en augmentation - Traitement urgent recommandé\n⚠️ Allergie Pénicilline - Antibiotiques alternatifs si nécessaire";
 
+                    console.log('Setting anamnesis text...');
                     document.getElementById('anamnesisText').textContent = anamnesis;
                     document.getElementById('anamnesisSection').style.display = 'block';
-                    
+                    console.log('Anamnesis displayed');
+
                     document.getElementById('recordingTimer').style.display = 'none';
                     document.getElementById('recordingStatusDot').style.background = 'var(--success)';
                     document.getElementById('recordingStatusText').textContent = 'Terminé';
                     document.getElementById('startRecordBtn').style.display = 'inline-flex';
-                    
+
+                    console.log('Scrolling to anamnesis...');
                     document.getElementById('anamnesisSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    
-                    addNotification('🤖', 'rgba(139, 92, 246, 0.15)', 'var(--purple)', 
-                        'Transcription et anamnèse terminées', 
-                        "L'IA a transcrit la consultation et généré l'anamnèse automatiquement. Durée: " + 
+
+                    console.log('Adding notification...');
+                    addNotification('🤖', 'rgba(139, 92, 246, 0.15)', 'var(--purple)',
+                        'Transcription et anamnèse terminées',
+                        "L'IA a transcrit la consultation et généré l'anamnèse automatiquement. Durée: " +
                         Math.floor(recordingSeconds / 60) + ' min ' + (recordingSeconds % 60) + ' sec',
                         'var(--purple)');
+                    console.log('Recording process complete!');
                 }, 2000);
             }, 3000);
+            } catch (error) {
+                console.error('Error in stopRecording:', error);
+                alert('Erreur dans stopRecording: ' + error.message);
+            }
         }
 
         function saveAnamnesis() {
