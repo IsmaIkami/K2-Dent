@@ -2318,4 +2318,11 @@
         // Close modals on escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay').forEac
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>
