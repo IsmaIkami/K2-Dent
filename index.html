@@ -1792,25 +1792,35 @@
         
         // Recording functions
         function startRecording() {
-            isRecording = true;
-            recordingSeconds = 0;
-            
-            document.getElementById('startRecordBtn').style.display = 'none';
-            document.getElementById('stopRecordBtn').style.display = 'inline-flex';
-            document.getElementById('recordingTimer').style.display = 'block';
-            document.getElementById('recordingStatusDot').style.background = 'var(--danger)';
-            document.getElementById('recordingStatusText').textContent = 'Enregistrement en cours...';
-            
-            recordingTimer = setInterval(function() {
-                recordingSeconds++;
-                const mins = Math.floor(recordingSeconds / 60);
-                const secs = recordingSeconds % 60;
-                document.getElementById('recordingTimer').textContent = 
-                    String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-            }, 1000);
-            
-            addToTimeline('', 'badge-manual', 'Enregistrement consultation démarré', 
-                'Enregistrement audio de la consultation en cours avec le patient Marie Dubois.');
+            console.log('startRecording called');
+            try {
+                isRecording = true;
+                recordingSeconds = 0;
+
+                console.log('Setting UI elements...');
+                document.getElementById('startRecordBtn').style.display = 'none';
+                document.getElementById('stopRecordBtn').style.display = 'inline-flex';
+                document.getElementById('recordingTimer').style.display = 'block';
+                document.getElementById('recordingStatusDot').style.background = 'var(--danger)';
+                document.getElementById('recordingStatusText').textContent = 'Enregistrement en cours...';
+
+                console.log('Starting timer...');
+                recordingTimer = setInterval(function() {
+                    recordingSeconds++;
+                    const mins = Math.floor(recordingSeconds / 60);
+                    const secs = recordingSeconds % 60;
+                    document.getElementById('recordingTimer').textContent =
+                        String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+                }, 1000);
+
+                console.log('Adding to timeline...');
+                addToTimeline('', 'badge-manual', 'Enregistrement consultation démarré',
+                    'Enregistrement audio de la consultation en cours avec le patient Marie Dubois.');
+                console.log('Recording started successfully!');
+            } catch (error) {
+                console.error('Error in startRecording:', error);
+                alert('Erreur: ' + error.message);
+            }
         }
 
         function stopRecording() {
