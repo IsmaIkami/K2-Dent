@@ -28,6 +28,16 @@
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
+        [data-theme="light"] {
+            --bg-main: #F5F7FA;
+            --bg-card: #FFFFFF;
+            --bg-hover: #E8ECF1;
+            --text-primary: #1A1D29;
+            --text-secondary: #6B7280;
+            --border: #E5E7EB;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
             background: var(--bg-main);
@@ -1073,19 +1083,19 @@
             <nav>
                 <div class="nav-section">
                     <div class="nav-title">Navigation</div>
-                    <a href="#" class="nav-item active">
+                    <a href="index.html" class="nav-item active">
                         <span>📊</span>
                         <span>Dashboard Patient</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="patients.html" class="nav-item">
                         <span>👥</span>
                         <span>Patients</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="agenda.html" class="nav-item">
                         <span>📅</span>
                         <span>Agenda</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="treatment.html" class="nav-item">
                         <span>🎯</span>
                         <span>Plan de Traitement</span>
                     </a>
@@ -1093,19 +1103,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Imagerie Médicale</div>
-                    <a href="#" class="nav-item">
+                    <a href="xrays.html" class="nav-item">
                         <span>📷</span>
                         <span>Radiographies X</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="scanner3d.html" class="nav-item">
                         <span>🔬</span>
                         <span>Scanner 3D</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="photos.html" class="nav-item">
                         <span>🖼️</span>
                         <span>Photos Intra-orales</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="camera.html" class="nav-item">
                         <span>📸</span>
                         <span>Caméra Temps Réel</span>
                     </a>
@@ -1113,19 +1123,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Intelligence Artificielle</div>
-                    <a href="#" class="nav-item">
+                    <a href="ai-analysis.html" class="nav-item">
                         <span>🤖</span>
                         <span>Analyses IA</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="ai-reports.html" class="nav-item">
                         <span>📈</span>
                         <span>Rapports Intelligents</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="ai-history.html" class="nav-item">
                         <span>🔄</span>
                         <span>Historique Complet IA</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="ai-realtime.html" class="nav-item">
                         <span>⚡</span>
                         <span>IA Temps Réel</span>
                     </a>
@@ -1133,19 +1143,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Administration</div>
-                    <a href="#" class="nav-item">
+                    <a href="inami.html" class="nav-item">
                         <span>💳</span>
                         <span>INAMI / e-Health</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="mutuelles.html" class="nav-item">
                         <span>🏥</span>
                         <span>Mutuelles</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="certificates.html" class="nav-item">
                         <span>📄</span>
                         <span>Certificats</span>
                     </a>
-                    <a href="#" class="nav-item">
+                    <a href="billing.html" class="nav-item">
                         <span>📊</span>
                         <span>Facturation</span>
                     </a>
@@ -1162,6 +1172,9 @@
                     <input type="text" placeholder="Rechercher patient, dossier, radio, diagnostic...">
                 </div>
                 <div class="topbar-actions">
+                    <div class="icon-btn" onclick="toggleTheme()" id="themeToggle" title="Changer le thème">
+                        🌙
+                    </div>
                     <div class="icon-btn" onclick="toggleNotifications()">
                         🔔
                         <span class="badge" id="notifCount">5</span>
@@ -2184,6 +2197,41 @@
         function hideLoading() {
             document.getElementById('loadingOverlay').classList.remove('active');
         }
+
+        // Theme Management
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const currentTheme = html.getAttribute('data-theme');
+
+            if (currentTheme === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme on page load
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+
+            if (savedTheme === 'light') {
+                html.setAttribute('data-theme', 'light');
+                if (themeToggle) themeToggle.textContent = '☀️';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                if (themeToggle) themeToggle.textContent = '🌙';
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', loadTheme);
 
         // Simulate real-time data updates
         setInterval(() => {
