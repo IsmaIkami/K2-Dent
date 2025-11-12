@@ -28,16 +28,6 @@
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
 
-        [data-theme="light"] {
-            --bg-main: #F5F7FA;
-            --bg-card: #FFFFFF;
-            --bg-hover: #E8ECF1;
-            --text-primary: #1A1D29;
-            --text-secondary: #6B7280;
-            --border: #E5E7EB;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
             background: var(--bg-main);
@@ -1083,19 +1073,19 @@
             <nav>
                 <div class="nav-section">
                     <div class="nav-title">Navigation</div>
-                    <a href="index.html" class="nav-item active">
+                    <a href="#" class="nav-item active">
                         <span>📊</span>
                         <span>Dashboard Patient</span>
                     </a>
-                    <a href="patients.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>👥</span>
                         <span>Patients</span>
                     </a>
-                    <a href="agenda.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>📅</span>
                         <span>Agenda</span>
                     </a>
-                    <a href="treatment.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>🎯</span>
                         <span>Plan de Traitement</span>
                     </a>
@@ -1103,19 +1093,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Imagerie Médicale</div>
-                    <a href="xrays.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>📷</span>
                         <span>Radiographies X</span>
                     </a>
-                    <a href="scanner3d.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>🔬</span>
                         <span>Scanner 3D</span>
                     </a>
-                    <a href="photos.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>🖼️</span>
                         <span>Photos Intra-orales</span>
                     </a>
-                    <a href="camera.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>📸</span>
                         <span>Caméra Temps Réel</span>
                     </a>
@@ -1123,19 +1113,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Intelligence Artificielle</div>
-                    <a href="ai-analysis.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>🤖</span>
                         <span>Analyses IA</span>
                     </a>
-                    <a href="ai-reports.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>📈</span>
                         <span>Rapports Intelligents</span>
                     </a>
-                    <a href="ai-history.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>🔄</span>
                         <span>Historique Complet IA</span>
                     </a>
-                    <a href="ai-realtime.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>⚡</span>
                         <span>IA Temps Réel</span>
                     </a>
@@ -1143,19 +1133,19 @@
 
                 <div class="nav-section">
                     <div class="nav-title">Administration</div>
-                    <a href="inami.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>💳</span>
                         <span>INAMI / e-Health</span>
                     </a>
-                    <a href="mutuelles.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>🏥</span>
                         <span>Mutuelles</span>
                     </a>
-                    <a href="certificates.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>📄</span>
                         <span>Certificats</span>
                     </a>
-                    <a href="billing.html" class="nav-item">
+                    <a href="#" class="nav-item">
                         <span>📊</span>
                         <span>Facturation</span>
                     </a>
@@ -1172,9 +1162,6 @@
                     <input type="text" placeholder="Rechercher patient, dossier, radio, diagnostic...">
                 </div>
                 <div class="topbar-actions">
-                    <div class="icon-btn" onclick="toggleTheme()" id="themeToggle" title="Changer le thème">
-                        🌙
-                    </div>
                     <div class="icon-btn" onclick="toggleNotifications()">
                         🔔
                         <span class="badge" id="notifCount">5</span>
@@ -1185,7 +1172,7 @@
             </div>
 
             <!-- Content -->
-            <div class="content" id="mainContent">
+            <div class="content">
                 <!-- Patient Cockpit Layout -->
                 <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
                     <!-- Patient Info Card -->
@@ -1789,128 +1776,64 @@
         let isRecording = false;
         let recordingTimer = null;
         let recordingSeconds = 0;
-        let mediaRecorder = null;
-        let audioChunks = [];
-
+        
         // Recording functions
-        async function startRecording() {
-            console.log('Start recording clicked');
-
-            try {
-                // Request microphone access
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                console.log('Microphone access granted');
-
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-
-                mediaRecorder.ondataavailable = (event) => {
-                    audioChunks.push(event.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    console.log('Recording stopped, blob size:', audioBlob.size);
-                    // Stop all tracks to release microphone
-                    stream.getTracks().forEach(track => track.stop());
-                };
-
-                mediaRecorder.start();
-                console.log('MediaRecorder started');
-
-                isRecording = true;
-                recordingSeconds = 0;
-
-                document.getElementById('startRecordBtn').style.display = 'none';
-                document.getElementById('stopRecordBtn').style.display = 'inline-flex';
-                document.getElementById('recordingTimer').style.display = 'block';
-                document.getElementById('recordingStatusDot').style.background = 'var(--danger)';
-                document.getElementById('recordingStatusText').textContent = 'Enregistrement en cours...';
-
-                recordingTimer = setInterval(function() {
-                    recordingSeconds++;
-                    const mins = Math.floor(recordingSeconds / 60);
-                    const secs = recordingSeconds % 60;
-                    document.getElementById('recordingTimer').textContent =
-                        String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-                }, 1000);
-
-                addToTimeline('', 'badge-manual', 'Enregistrement consultation démarré',
-                    'Enregistrement audio de la consultation en cours avec le patient Marie Dubois.');
-            } catch (error) {
-                console.error('Error accessing microphone:', error);
-                alert('❌ Erreur: Impossible d\'accéder au microphone.\n\n' +
-                      'Veuillez autoriser l\'accès au microphone dans votre navigateur.\n\n' +
-                      'Mode démo activé à la place.');
-                // Fallback to demo mode
-                startDemoRecording();
-            }
-        }
-
-        // Demo recording mode (without actual microphone)
-        function startDemoRecording() {
-            console.log('Starting demo recording mode');
+        function startRecording() {
             isRecording = true;
             recordingSeconds = 0;
-
+            
             document.getElementById('startRecordBtn').style.display = 'none';
             document.getElementById('stopRecordBtn').style.display = 'inline-flex';
             document.getElementById('recordingTimer').style.display = 'block';
             document.getElementById('recordingStatusDot').style.background = 'var(--danger)';
-            document.getElementById('recordingStatusText').textContent = 'Mode Démo - Enregistrement simulé...';
-
+            document.getElementById('recordingStatusText').textContent = 'Enregistrement en cours...';
+            
             recordingTimer = setInterval(function() {
                 recordingSeconds++;
                 const mins = Math.floor(recordingSeconds / 60);
                 const secs = recordingSeconds % 60;
-                document.getElementById('recordingTimer').textContent =
+                document.getElementById('recordingTimer').textContent = 
                     String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
             }, 1000);
-
-            addToTimeline('', 'badge-manual', 'Enregistrement démo démarré',
-                'Mode démonstration - Simulation d\'enregistrement audio de consultation.');
+            
+            addToTimeline('', 'badge-manual', 'Enregistrement consultation démarré', 
+                'Enregistrement audio de la consultation en cours avec le patient Marie Dubois.');
         }
 
         function stopRecording() {
-            console.log('Stop recording clicked');
             isRecording = false;
             clearInterval(recordingTimer);
-
-            // Stop MediaRecorder if it exists
-            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-                mediaRecorder.stop();
-            }
-
+            
             document.getElementById('stopRecordBtn').style.display = 'none';
             document.getElementById('recordingStatusDot').style.background = 'var(--warning)';
             document.getElementById('recordingStatusText').textContent = 'Traitement en cours...';
-
+            
             showLoading('Transcription et analyse IA en cours...');
-
+            
             setTimeout(function() {
                 hideLoading();
-
-                const transcription = "Docteur: \"Bonjour Madame Dubois, qu'est-ce qui vous amène aujourd'hui ?\"\n\nPatient: \"Bonjour Docteur. J'ai une douleur à la dent en haut à droite depuis quelques jours.\"\n\nDocteur: \"D'accord. Pouvez-vous me décrire cette douleur ? Est-elle constante ou intermittente ?\"\n\nPatient: \"Elle est surtout présente quand je mange ou bois quelque chose de chaud ou froid. C'est vraiment désagréable, ça fait mal.\"\n\nDocteur: \"Je comprends. Avez-vous remarqué un gonflement au niveau de la gencive ?\"\n\nPatient: \"Non, pas de gonflement, mais la dent est très sensible quand je la touche.\"\n\nDocteur: \"Très bien. Depuis combien de temps exactement avez-vous cette douleur ?\"\n\nPatient: \"Ça a commencé il y a environ 5 jours. Au début c'était léger, mais ça empire.\"\n\nDocteur: \"D'accord. Je vais examiner la dent. Ouvrez bien la bouche s'il vous plaît...\"";
+                
+                const transcription = "Docteur: \"Bonjour Madame Dubois, qu\\'est-ce qui vous amène aujourd\\'hui ?\"\n\nPatient: \"Bonjour Docteur. J\\'ai une douleur à la dent en haut à droite depuis quelques jours.\"\n\nDocteur: \"D\\'accord. Pouvez-vous me décrire cette douleur ? Est-elle constante ou intermittente ?\"\n\nPatient: \"Elle est surtout présente quand je mange ou bois quelque chose de chaud ou froid. C\\'est vraiment désagréable, ça fait mal.\"\n\nDocteur: \"Je comprends. Avez-vous remarqué un gonflement au niveau de la gencive ?\"\n\nPatient: \"Non, pas de gonflement, mais la dent est très sensible quand je la touche.\"\n\nDocteur: \"Très bien. Depuis combien de temps exactement avez-vous cette douleur ?\"\n\nPatient: \"Ça a commencé il y a environ 5 jours. Au début c\\'était léger, mais ça empire.\"\n\nDocteur: \"D\\'accord. Je vais examiner la dent. Ouvrez bien la bouche s\\'il vous plaît...\"";
 
                 document.getElementById('transcriptionText').textContent = transcription;
                 document.getElementById('transcriptionSection').style.display = 'block';
-
+                
                 setTimeout(function() {
                     const anamnesis = "**Motif de consultation:**\nDouleur dentaire secteur supérieur droit depuis 5 jours\n\n**Histoire de la maladie actuelle:**\n- Début: Il y a 5 jours, évolution progressive\n- Caractère: Douleur provoquée par stimuli thermiques (chaud/froid)\n- Intensité: Initialement légère, augmentation progressive\n- Sensibilité au toucher de la dent\n- Pas de gonflement gingival visible\n\n**Symptômes associés:**\n- Sensibilité thermique marquée\n- Douleur à la percussion légère\n- Pas d'œdème\n- Pas de fièvre mentionnée\n\n**Antécédents médicaux pertinents:**\n- Diabète Type 2 (sous Metformine 850mg)\n- Allergies: Pénicilline, Latex\n\n**Hypothèses diagnostiques:**\n1. Pulpite (réversible ou irréversible) - Probabilité haute\n2. Carie dentaire profonde - À confirmer par examen clinique\n3. Fissure/fêlure dentaire - À exclure\n\n**Examens complémentaires nécessaires:**\n- Examen clinique détaillé de la dent concernée\n- Test de vitalité pulpaire\n- Radiographie rétro-alvéolaire de la zone\n- Test de percussion et palpation\n\n**Plan de traitement proposé:**\n1. Examen clinique approfondi immédiat\n2. Radiographie pour évaluation de la carie/pulpe\n3. Si pulpite irréversible: traitement endodontique\n4. Si pulpite réversible: restauration avec protection pulpaire\n\n**Points d'attention:**\n⚠️ Patient diabétique - Surveillance accrue de la cicatrisation\n⚠️ Douleur en augmentation - Traitement urgent recommandé\n⚠️ Allergie Pénicilline - Antibiotiques alternatifs si nécessaire";
 
                     document.getElementById('anamnesisText').textContent = anamnesis;
                     document.getElementById('anamnesisSection').style.display = 'block';
-
+                    
                     document.getElementById('recordingTimer').style.display = 'none';
                     document.getElementById('recordingStatusDot').style.background = 'var(--success)';
                     document.getElementById('recordingStatusText').textContent = 'Terminé';
                     document.getElementById('startRecordBtn').style.display = 'inline-flex';
-
+                    
                     document.getElementById('anamnesisSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                    addNotification('🤖', 'rgba(139, 92, 246, 0.15)', 'var(--purple)',
-                        'Transcription et anamnèse terminées',
-                        "L'IA a transcrit la consultation et généré l'anamnèse automatiquement. Durée: " +
+                    
+                    addNotification('🤖', 'rgba(139, 92, 246, 0.15)', 'var(--purple)', 
+                        'Transcription et anamnèse terminées', 
+                        "L\\'IA a transcrit la consultation et généré l\\'anamnèse automatiquement. Durée: " + 
                         Math.floor(recordingSeconds / 60) + ' min ' + (recordingSeconds % 60) + ' sec',
                         'var(--purple)');
                 }, 2000);
@@ -2034,37 +1957,31 @@
 
         // Load X-ray
         function loadXray() {
-            console.log('Load X-ray clicked');
             showLoading('Chargement de la radiographie...');
-
+            
             setTimeout(() => {
-                // Use a real dental X-ray image
+                // Simulate loading dental X-ray
                 const display = document.getElementById('xrayDisplay');
-                display.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Dental_Panoramic_X-ray.jpg/1280px-Dental_Panoramic_X-ray.jpg" class="xray-image" alt="Dental Panoramic X-Ray">';
-
+                display.innerHTML = '<img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1200&h=800&fit=crop" class="xray-image" alt="Dental X-Ray">';
+                
                 document.getElementById('xraySource').textContent = 'Planmeca ProMax';
                 document.getElementById('xrayType').textContent = 'Panoramique';
                 document.getElementById('xrayDate').textContent = new Date().toLocaleDateString('fr-BE');
                 document.getElementById('xrayStatus').textContent = 'Chargé';
                 document.getElementById('xrayStatus').style.color = 'var(--success)';
-
+                
                 currentXrayLoaded = true;
                 hideLoading();
-
+                
                 // Add to timeline
-                addToTimeline('xray', 'badge-xray', 'Radio panoramique numérique importée',
+                addToTimeline('xray', 'badge-xray', 'Radio panoramique numérique importée', 
                     'Capteur: Planmeca ProMax 3D · Résolution: 150μm · DICOM sync ✓');
-
+                
                 // Add notification
-                addNotification('📷', 'rgba(0, 200, 150, 0.15)', 'var(--secondary)',
-                    'Radiographie chargée',
+                addNotification('📷', 'rgba(0, 200, 150, 0.15)', 'var(--secondary)', 
+                    'Radiographie chargée', 
                     'La radiographie panoramique a été importée avec succès. Prête pour l\'analyse IA.',
                     'var(--secondary)');
-
-                // Automatically trigger AI analysis after 1 second
-                setTimeout(() => {
-                    analyzeWithAI();
-                }, 1000);
             }, 2000);
         }
 
@@ -2268,51 +2185,11 @@
             document.getElementById('loadingOverlay').classList.remove('active');
         }
 
-        // Theme Management
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeToggle = document.getElementById('themeToggle');
-            const currentTheme = html.getAttribute('data-theme');
-
-            if (currentTheme === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '🌙';
-                localStorage.setItem('theme', 'dark');
-                console.log('Switched to dark mode');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                themeToggle.textContent = '☀️';
-                localStorage.setItem('theme', 'light');
-                console.log('Switched to light mode');
-            }
-        }
-
-        // Load saved theme on page load
-        function loadTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            const html = document.documentElement;
-            const themeToggle = document.getElementById('themeToggle');
-
-            if (savedTheme === 'light') {
-                html.setAttribute('data-theme', 'light');
-                if (themeToggle) themeToggle.textContent = '☀️';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                if (themeToggle) themeToggle.textContent = '🌙';
-            }
-            console.log('Loaded theme:', savedTheme);
-        }
-
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', loadTheme);
-
         // Simulate real-time data updates
         setInterval(() => {
             const indicator = document.getElementById('lastUpdate');
-            if (indicator) {
-                const seconds = Math.floor(Math.random() * 10);
-                indicator.textContent = `Dernière MAJ: il y a ${seconds} sec`;
-            }
+            const seconds = Math.floor(Math.random() * 10);
+            indicator.textContent = `Dernière MAJ: il y a ${seconds} sec`;
         }, 5000);
 
         // Close modals on escape key
@@ -2324,5 +2201,5 @@
             }
         });
     </script>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</body>
 </html>
