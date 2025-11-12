@@ -186,82 +186,108 @@
         .dental-chart {
             display: flex;
             flex-direction: column;
-            gap: 40px;
+            gap: 60px;
             align-items: center;
             padding: 20px;
         }
 
-        .arch-visualization {
+        .arch {
             width: 100%;
-            max-width: 700px;
-            margin: 20px auto;
+            max-width: 800px;
+            position: relative;
         }
 
-        .arch-label {
+        .arch-title {
             text-align: center;
             font-weight: 600;
             color: var(--text-secondary);
-            margin-bottom: 15px;
+            margin-bottom: 30px;
             font-size: 14px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .arch-svg {
-            width: 100%;
-            height: auto;
-            margin-bottom: 15px;
+        .arch-container {
+            position: relative;
+            min-height: 250px;
         }
 
-        .arch-svg circle {
+        .arch-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .tooth {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
             cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+            transform: translate(-50%, -50%);
+        }
+
+        .tooth:hover {
+            background: var(--bg-hover);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .tooth.selected {
+            background: var(--primary);
+        }
+
+        .tooth-svg {
+            width: 40px;
+            height: 50px;
+            fill: var(--text-primary);
             transition: all 0.2s;
         }
 
-        .arch-svg circle:hover {
-            stroke: var(--primary);
-            stroke-width: 3;
+        .tooth.caries .tooth-svg {
+            fill: var(--danger);
         }
 
-        .arch-svg circle.selected {
-            stroke: var(--primary);
-            stroke-width: 4;
+        .tooth.filled .tooth-svg {
+            fill: var(--warning);
         }
 
-        .tooth-labels {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 10px;
+        .tooth.crown .tooth-svg {
+            fill: #FFD700;
         }
 
-        .tooth-label {
-            font-size: 10px;
+        .tooth.missing .tooth-svg {
+            fill: var(--text-secondary);
+            opacity: 0.3;
+        }
+
+        .tooth.implant .tooth-svg {
+            fill: var(--secondary);
+        }
+
+        .tooth.root-canal .tooth-svg {
+            fill: #9333EA;
+        }
+
+        .tooth.bridge .tooth-svg {
+            fill: #F59E0B;
+        }
+
+        .tooth-number {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .tooth-status {
+            font-size: 9px;
             color: var(--text-secondary);
             text-align: center;
-        }
-
-        .status-indicator {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
-            padding: 15px;
-            background: var(--bg-hover);
-            border-radius: 10px;
-        }
-
-        .status-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-        }
-
-        .status-dot {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
+            white-space: nowrap;
         }
 
         /* Treatment Panel */
@@ -564,128 +590,36 @@
 
                 <div class="dental-chart">
                     <!-- Upper Arch -->
-                    <div class="arch-visualization">
-                        <div class="arch-label">ARCADE SUPÉRIEURE</div>
-                        <svg class="arch-svg" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg" id="upperArchSvg">
-                            <!-- Arch outline -->
-                            <path d="M 60,230 Q 60,60 250,40 Q 440,60 440,230"
-                                  fill="none"
-                                  stroke="var(--border)"
-                                  stroke-width="2"
-                                  stroke-dasharray="5,5"/>
-
-                            <!-- Teeth positions - Quadrant 1 (18-11) -->
-                            <circle cx="80" cy="190" r="14" fill="var(--text-primary)" opacity="0.3" data-tooth="18" class="tooth-circle"/>
-                            <circle cx="100" cy="155" r="14" fill="var(--text-primary)" opacity="0.3" data-tooth="17" class="tooth-circle"/>
-                            <circle cx="125" cy="120" r="14" fill="var(--danger)" data-tooth="16" class="tooth-circle"/>
-                            <circle cx="155" cy="95" r="12" fill="var(--text-primary)" data-tooth="15" class="tooth-circle"/>
-                            <circle cx="185" cy="78" r="12" fill="var(--text-primary)" data-tooth="14" class="tooth-circle"/>
-                            <circle cx="212" cy="68" r="11" fill="var(--text-primary)" data-tooth="13" class="tooth-circle"/>
-                            <circle cx="235" cy="63" r="10" fill="var(--text-primary)" data-tooth="12" class="tooth-circle"/>
-                            <circle cx="250" cy="61" r="10" fill="var(--text-primary)" data-tooth="11" class="tooth-circle"/>
-
-                            <!-- Teeth positions - Quadrant 2 (21-28) -->
-                            <circle cx="265" cy="63" r="10" fill="var(--text-primary)" data-tooth="21" class="tooth-circle"/>
-                            <circle cx="288" cy="68" r="11" fill="var(--text-primary)" data-tooth="22" class="tooth-circle"/>
-                            <circle cx="315" cy="78" r="12" fill="var(--text-primary)" data-tooth="23" class="tooth-circle"/>
-                            <circle cx="345" cy="95" r="12" fill="var(--text-primary)" data-tooth="24" class="tooth-circle"/>
-                            <circle cx="375" cy="120" r="14" fill="var(--warning)" data-tooth="26" class="tooth-circle"/>
-                            <circle cx="400" cy="155" r="14" fill="var(--text-primary)" data-tooth="27" class="tooth-circle"/>
-                            <circle cx="420" cy="190" r="14" fill="var(--text-primary)" opacity="0.3" data-tooth="28" class="tooth-circle"/>
-
-                            <!-- Tooth numbers -->
-                            <text x="80" y="218" text-anchor="middle" fill="var(--text-secondary)" font-size="11">18</text>
-                            <text x="100" y="183" text-anchor="middle" fill="var(--text-secondary)" font-size="11">17</text>
-                            <text x="125" y="148" text-anchor="middle" fill="var(--text-secondary)" font-size="11">16</text>
-                            <text x="155" y="123" text-anchor="middle" fill="var(--text-secondary)" font-size="11">15</text>
-                            <text x="185" y="106" text-anchor="middle" fill="var(--text-secondary)" font-size="11">14</text>
-                            <text x="215" y="96" text-anchor="middle" fill="var(--text-secondary)" font-size="11">13</text>
-                            <text x="240" y="91" text-anchor="middle" fill="var(--text-secondary)" font-size="11">12</text>
-                            <text x="250" y="89" text-anchor="middle" fill="var(--text-secondary)" font-size="11">11</text>
-                            <text x="260" y="91" text-anchor="middle" fill="var(--text-secondary)" font-size="11">21</text>
-                            <text x="285" y="96" text-anchor="middle" fill="var(--text-secondary)" font-size="11">22</text>
-                            <text x="315" y="106" text-anchor="middle" fill="var(--text-secondary)" font-size="11">23</text>
-                            <text x="345" y="123" text-anchor="middle" fill="var(--text-secondary)" font-size="11">24</text>
-                            <text x="375" y="148" text-anchor="middle" fill="var(--text-secondary)" font-size="11">26</text>
-                            <text x="400" y="183" text-anchor="middle" fill="var(--text-secondary)" font-size="11">27</text>
-                            <text x="420" y="218" text-anchor="middle" fill="var(--text-secondary)" font-size="11">28</text>
-                        </svg>
+                    <div class="arch">
+                        <div class="arch-title">ARCADE SUPÉRIEURE</div>
+                        <div class="arch-container">
+                            <!-- SVG Arch Line -->
+                            <svg class="arch-line" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M 100,230 Q 100,60 400,40 Q 700,60 700,230"
+                                      fill="none"
+                                      stroke="var(--border)"
+                                      stroke-width="2"
+                                      stroke-dasharray="5,5"/>
+                            </svg>
+                            <!-- Teeth will be positioned by JavaScript -->
+                            <div id="upper-arch-teeth"></div>
+                        </div>
                     </div>
 
                     <!-- Lower Arch -->
-                    <div class="arch-visualization">
-                        <div class="arch-label">ARCADE INFÉRIEURE</div>
-                        <svg class="arch-svg" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg" id="lowerArchSvg">
-                            <!-- Arch outline -->
-                            <path d="M 60,20 Q 60,190 250,210 Q 440,190 440,20"
-                                  fill="none"
-                                  stroke="var(--border)"
-                                  stroke-width="2"
-                                  stroke-dasharray="5,5"/>
-
-                            <!-- Teeth positions - Quadrant 4 (48-41) -->
-                            <circle cx="80" cy="60" r="14" fill="var(--text-primary)" opacity="0.3" data-tooth="48" class="tooth-circle"/>
-                            <circle cx="100" cy="95" r="14" fill="var(--text-primary)" opacity="0.3" data-tooth="47" class="tooth-circle"/>
-                            <circle cx="125" cy="130" r="14" fill="var(--secondary)" data-tooth="46" class="tooth-circle"/>
-                            <circle cx="155" cy="155" r="12" fill="var(--text-primary)" data-tooth="45" class="tooth-circle"/>
-                            <circle cx="185" cy="172" r="12" fill="var(--text-primary)" data-tooth="44" class="tooth-circle"/>
-                            <circle cx="212" cy="182" r="11" fill="var(--text-primary)" data-tooth="43" class="tooth-circle"/>
-                            <circle cx="235" cy="187" r="10" fill="var(--text-primary)" data-tooth="42" class="tooth-circle"/>
-                            <circle cx="250" cy="189" r="10" fill="var(--text-primary)" data-tooth="41" class="tooth-circle"/>
-
-                            <!-- Teeth positions - Quadrant 3 (31-38) -->
-                            <circle cx="265" cy="187" r="10" fill="var(--text-primary)" data-tooth="31" class="tooth-circle"/>
-                            <circle cx="288" cy="182" r="11" fill="var(--text-primary)" data-tooth="32" class="tooth-circle"/>
-                            <circle cx="315" cy="172" r="12" fill="var(--text-primary)" data-tooth="33" class="tooth-circle"/>
-                            <circle cx="345" cy="155" r="12" fill="var(--text-primary)" data-tooth="34" class="tooth-circle"/>
-                            <circle cx="375" cy="130" r="14" fill="#FFD700" data-tooth="36" class="tooth-circle"/>
-                            <circle cx="400" cy="95" r="14" fill="var(--text-primary)" data-tooth="37" class="tooth-circle"/>
-                            <circle cx="420" cy="60" r="14" fill="var(--text-primary)" opacity="0.3" data-tooth="38" class="tooth-circle"/>
-
-                            <!-- Tooth numbers -->
-                            <text x="80" y="48" text-anchor="middle" fill="var(--text-secondary)" font-size="11">48</text>
-                            <text x="100" y="83" text-anchor="middle" fill="var(--text-secondary)" font-size="11">47</text>
-                            <text x="125" y="118" text-anchor="middle" fill="var(--text-secondary)" font-size="11">46</text>
-                            <text x="155" y="143" text-anchor="middle" fill="var(--text-secondary)" font-size="11">45</text>
-                            <text x="185" y="160" text-anchor="middle" fill="var(--text-secondary)" font-size="11">44</text>
-                            <text x="215" y="170" text-anchor="middle" fill="var(--text-secondary)" font-size="11">43</text>
-                            <text x="240" y="175" text-anchor="middle" fill="var(--text-secondary)" font-size="11">42</text>
-                            <text x="250" y="177" text-anchor="middle" fill="var(--text-secondary)" font-size="11">41</text>
-                            <text x="260" y="175" text-anchor="middle" fill="var(--text-secondary)" font-size="11">31</text>
-                            <text x="285" y="170" text-anchor="middle" fill="var(--text-secondary)" font-size="11">32</text>
-                            <text x="315" y="160" text-anchor="middle" fill="var(--text-secondary)" font-size="11">33</text>
-                            <text x="345" y="143" text-anchor="middle" fill="var(--text-secondary)" font-size="11">34</text>
-                            <text x="375" y="118" text-anchor="middle" fill="var(--text-secondary)" font-size="11">36</text>
-                            <text x="400" y="83" text-anchor="middle" fill="var(--text-secondary)" font-size="11">37</text>
-                            <text x="420" y="48" text-anchor="middle" fill="var(--text-secondary)" font-size="11">38</text>
-                        </svg>
-                    </div>
-
-                    <!-- Status Legend -->
-                    <div class="status-indicator">
-                        <div class="status-item">
-                            <div class="status-dot" style="background: var(--text-primary);"></div>
-                            <span>Sain</span>
-                        </div>
-                        <div class="status-item">
-                            <div class="status-dot" style="background: var(--danger);"></div>
-                            <span>Carie (16)</span>
-                        </div>
-                        <div class="status-item">
-                            <div class="status-dot" style="background: var(--warning);"></div>
-                            <span>Obturation (26)</span>
-                        </div>
-                        <div class="status-item">
-                            <div class="status-dot" style="background: #FFD700;"></div>
-                            <span>Couronne (36)</span>
-                        </div>
-                        <div class="status-item">
-                            <div class="status-dot" style="background: var(--secondary);"></div>
-                            <span>Implant (46)</span>
-                        </div>
-                        <div class="status-item">
-                            <div class="status-dot" style="background: var(--text-primary); opacity: 0.3;"></div>
-                            <span>Absent/Sagesse (18,28,38,48)</span>
+                    <div class="arch">
+                        <div class="arch-title">ARCADE INFÉRIEURE</div>
+                        <div class="arch-container">
+                            <!-- SVG Arch Line -->
+                            <svg class="arch-line" viewBox="0 0 800 250" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M 100,20 Q 100,190 400,210 Q 700,190 700,20"
+                                      fill="none"
+                                      stroke="var(--border)"
+                                      stroke-width="2"
+                                      stroke-dasharray="5,5"/>
+                            </svg>
+                            <!-- Teeth will be positioned by JavaScript -->
+                            <div id="lower-arch-teeth"></div>
                         </div>
                     </div>
                 </div>
@@ -751,18 +685,6 @@ Plan de traitement recommandé:
             }
         }
 
-        // Dental chart data (FDI notation)
-        const teethData = {
-            // Quadrant 1: Upper right (18-11)
-            1: [18, 17, 16, 15, 14, 13, 12, 11],
-            // Quadrant 2: Upper left (21-28)
-            2: [21, 22, 23, 24, 25, 26, 27, 28],
-            // Quadrant 3: Lower left (31-38)
-            3: [31, 32, 33, 34, 35, 36, 37, 38],
-            // Quadrant 4: Lower right (48-41)
-            4: [48, 47, 46, 45, 44, 43, 42, 41]
-        };
-
         // Store tooth statuses
         const toothStatuses = {
             16: 'caries',
@@ -770,58 +692,92 @@ Plan de traitement recommandé:
             36: 'crown',
             46: 'implant',
             18: 'missing',
-            17: 'missing',
             28: 'missing',
             38: 'missing',
-            47: 'missing',
             48: 'missing'
         };
 
         let selectedTreatment = null;
 
-        // Initialize dental chart with SVG click handlers
+        // Teeth positions on arch (percentage-based for upper arch)
+        const upperTeethPositions = {
+            18: { x: 12.5, y: 92 }, 17: { x: 17.5, y: 76 },
+            16: { x: 23, y: 60 }, 15: { x: 30, y: 48 },
+            14: { x: 37, y: 40 }, 13: { x: 43, y: 36 },
+            12: { x: 48, y: 34 }, 11: { x: 50, y: 33 },
+            21: { x: 52, y: 34 }, 22: { x: 57, y: 36 },
+            23: { x: 63, y: 40 }, 24: { x: 70, y: 48 },
+            26: { x: 77, y: 60 }, 27: { x: 82.5, y: 76 },
+            28: { x: 87.5, y: 92 }
+        };
+
+        // Lower teeth positions (percentage-based for lower arch)
+        const lowerTeethPositions = {
+            48: { x: 12.5, y: 8 }, 47: { x: 17.5, y: 24 },
+            46: { x: 23, y: 40 }, 45: { x: 30, y: 52 },
+            44: { x: 37, y: 60 }, 43: { x: 43, y: 64 },
+            42: { x: 48, y: 66 }, 41: { x: 50, y: 67 },
+            31: { x: 52, y: 66 }, 32: { x: 57, y: 64 },
+            33: { x: 63, y: 60 }, 34: { x: 70, y: 52 },
+            36: { x: 77, y: 40 }, 37: { x: 82.5, y: 24 },
+            38: { x: 87.5, y: 8 }
+        };
+
+        // Initialize dental chart
         function initDentalChart() {
-            const allCircles = document.querySelectorAll('.tooth-circle');
-            allCircles.forEach(circle => {
-                circle.addEventListener('click', function() {
-                    const toothNum = parseInt(this.getAttribute('data-tooth'));
-                    if (selectedTreatment) {
-                        applyTreatmentToSVG(toothNum, selectedTreatment, this);
-                    }
-                });
+            // Create upper arch teeth
+            const upperContainer = document.getElementById('upper-arch-teeth');
+            Object.keys(upperTeethPositions).forEach(toothNum => {
+                const tooth = createTooth(parseInt(toothNum), upperTeethPositions[toothNum]);
+                upperContainer.appendChild(tooth);
+            });
+
+            // Create lower arch teeth
+            const lowerContainer = document.getElementById('lower-arch-teeth');
+            Object.keys(lowerTeethPositions).forEach(toothNum => {
+                const tooth = createTooth(parseInt(toothNum), lowerTeethPositions[toothNum]);
+                lowerContainer.appendChild(tooth);
             });
         }
 
-        // Apply treatment to SVG circle
-        function applyTreatmentToSVG(toothNumber, treatment, circleElement) {
-            // Get computed CSS variables
-            const root = document.documentElement;
-            const style = getComputedStyle(root);
+        // Create tooth element
+        function createTooth(number, position) {
+            const tooth = document.createElement('div');
+            tooth.className = 'tooth';
+            tooth.id = 'tooth-' + number;
+            tooth.style.left = position.x + '%';
+            tooth.style.top = position.y + '%';
 
-            // Color mapping with resolved CSS variables
-            const colorMap = {
-                'healthy': style.getPropertyValue('--text-primary').trim() || '#FFFFFF',
-                'caries': style.getPropertyValue('--danger').trim() || '#FF3B30',
-                'filled': style.getPropertyValue('--warning').trim() || '#FF9500',
-                'crown': '#FFD700',
-                'implant': style.getPropertyValue('--secondary').trim() || '#00C896',
-                'missing': style.getPropertyValue('--text-primary').trim() || '#FFFFFF',
-                'root-canal': '#9333EA',
-                'bridge': '#F59E0B'
-            };
-
-            circleElement.setAttribute('fill', colorMap[treatment]);
-
-            if (treatment === 'missing') {
-                circleElement.setAttribute('opacity', '0.3');
-            } else {
-                circleElement.setAttribute('opacity', '1');
+            const status = toothStatuses[number] || 'healthy';
+            if (status !== 'healthy') {
+                tooth.classList.add(status);
             }
 
-            // Store status
-            toothStatuses[toothNumber] = treatment;
+            // Determine if molar, premolar, canine, or incisor
+            const lastDigit = number % 10;
+            const isMolar = lastDigit >= 6;
 
-            console.log('Dent ' + toothNumber + ' mise à jour:', treatment, 'couleur:', colorMap[treatment]);
+            tooth.innerHTML = `
+                <svg class="tooth-svg" viewBox="0 0 40 50" xmlns="http://www.w3.org/2000/svg">
+                    ${isMolar ? `
+                        <path d="M5,10 Q5,5 10,5 L30,5 Q35,5 35,10 L35,35 Q35,45 30,45 L10,45 Q5,45 5,35 Z"/>
+                        <circle cx="15" cy="20" r="3"/>
+                        <circle cx="25" cy="20" r="3"/>
+                    ` : `
+                        <path d="M10,5 Q15,5 20,5 Q25,5 30,5 Q30,10 30,15 L30,40 Q25,48 20,48 Q15,48 10,40 L10,15 Q10,10 10,5 Z"/>
+                    `}
+                </svg>
+                <div class="tooth-number">${number}</div>
+                <div class="tooth-status">${getStatusLabel(status)}</div>
+            `;
+
+            tooth.addEventListener('click', function() {
+                if (selectedTreatment) {
+                    applyTreatment(number, selectedTreatment);
+                }
+            });
+
+            return tooth;
         }
 
         // Get status label
@@ -850,6 +806,28 @@ Plan de traitement recommandé:
             document.getElementById('btn-' + treatment).classList.add('active');
 
             console.log('Traitement sélectionné:', treatment);
+        }
+
+        // Apply treatment to tooth
+        function applyTreatment(toothNumber, treatment) {
+            const tooth = document.getElementById('tooth-' + toothNumber);
+
+            // Remove all status classes
+            tooth.classList.remove('healthy', 'caries', 'filled', 'crown', 'implant', 'missing', 'root-canal', 'bridge');
+
+            // Add new status
+            if (treatment !== 'healthy') {
+                tooth.classList.add(treatment);
+            }
+
+            // Update status label
+            const statusEl = tooth.querySelector('.tooth-status');
+            statusEl.textContent = getStatusLabel(treatment);
+
+            // Store status
+            toothStatuses[toothNumber] = treatment;
+
+            console.log('Dent ' + toothNumber + ' mise à jour:', treatment);
         }
 
         // Save dental chart
