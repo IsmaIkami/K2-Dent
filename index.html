@@ -305,6 +305,73 @@
             line-height: 1.7;
         }
 
+        .feature-card {
+            cursor: pointer;
+        }
+
+        .feature-expand-btn {
+            margin-top: 15px;
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover .feature-expand-btn {
+            gap: 10px;
+        }
+
+        .feature-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            margin-top: 0;
+        }
+
+        .feature-details.active {
+            max-height: 800px;
+            margin-top: 20px;
+        }
+
+        .feature-details-content {
+            background: rgba(0, 102, 255, 0.05);
+            border-left: 3px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .feature-benefit {
+            display: flex;
+            align-items: start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .feature-benefit:last-child {
+            margin-bottom: 0;
+        }
+
+        .feature-benefit-icon {
+            color: var(--secondary);
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .feature-roi {
+            background: linear-gradient(135deg, rgba(0, 200, 150, 0.1) 0%, rgba(0, 102, 255, 0.1) 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
         /* AI Technology Section */
         .ai-tech {
             padding: 100px 40px;
@@ -722,58 +789,242 @@
         <p class="section-subtitle">Tout ce dont vous avez besoin pour gérer votre cabinet dentaire</p>
 
         <div class="features-grid">
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">🎯</div>
                 <h3>Anamnèse Automatique</h3>
                 <p>Enregistrez vocalement la consultation. L'IA transcrit, analyse et génère une anamnèse structurée professionnelle instantanément.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Gain de temps massif :</strong> Plus besoin de taper pendant ou après la consultation - RCE capture tout automatiquement</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Qualité professionnelle :</strong> Anamnèse structurée selon standards médicaux, aucun détail oublié</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Historique complet :</strong> Versionning automatique, modifications tracées, accès immédiat aux anciennes versions</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Concentration patient :</strong> Maintenez le contact visuel et la relation, pas les yeux rivés sur l'écran</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Économisez 15-20 min par consultation = +3 patients/jour possible
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">🦷</div>
                 <h3>Schéma Dentaire Pro</h3>
                 <p>Odontogramme FDI avec gradients, raccourcis clavier, alignement parfait. Interface inspirée des meilleurs logiciels (CareStack, Dentrix).</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Workflow ultra-rapide :</strong> Raccourcis clavier (C, O, K, I, M, R) pour saisie instantanée sans clic</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Visuel professionnel :</strong> Gradients de couleurs, statuts visuels clairs, design moderne qui impressionne</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Zéro erreur :</strong> Notation FDI standard, sauvegarde automatique, impossible de perdre des données</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Saisie 5x plus rapide qu'un logiciel classique = gain de productivité immédiat
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">📊</div>
                 <h3>Parodontologie</h3>
                 <p>Charting 6 points, calcul automatique d'indices, saignement, récession. Classification AAP automatique avec recommandations.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Précision clinique :</strong> 6 mesures par dent, tracking saignement/récession, graphiques d'évolution automatiques</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Classification AAP :</strong> RCE calcule automatiquement stade et grade, suggère le traitement approprié</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Suivi longitudinal :</strong> Comparaison sessions précédentes, alertes sur détérioration, preuves d'amélioration</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Facturez parodontologie avec preuves cliniques béton + fidélisation patients
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">🔧</div>
                 <h3>Orthodontie</h3>
                 <p>Analyse céphalométrique complète, plan de traitement par phases, calculateur durée, visualisation arcades dentaires.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Céphalométrie intelligente :</strong> RCE analyse téléradiographie, calcule tous les angles et mesures automatiquement</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Plan par phases :</strong> Structurez traitement étape par étape, durée estimée, suivi progression visuel</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Simulation visuelle :</strong> Arcades 3D, prévisualisation résultats, communication patient facilitée</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Offrez orthodontie sans logiciel séparé = nouveau flux de revenus
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">💊</div>
                 <h3>Prescriptions Recip-e</h3>
                 <p>Système officiel belge intégré. QR codes, e-Health, base médicamenteuse, vérification interactions, suggestions IA contextuelles.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Conformité légale :</strong> Recip-e officiel belge, QR codes valides, envoi direct e-Health</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Sécurité maximale :</strong> RCE vérifie interactions médicamenteuses, allergies patient, contre-indications</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Suggestions intelligentes :</strong> Médicaments adaptés au diagnostic, posologie automatique, alternatives proposées</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Zéro erreur de prescription = protection juridique + confiance patient
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">📷</div>
                 <h3>Imagerie Médicale</h3>
                 <p>Radiographies X, scanner 3D, photos intra-orales, caméra temps réel. Analyse IA des images avec détection automatique.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Détection IA automatique :</strong> Caries, perte osseuse, obturations compromises détectées en secondes</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Centralisation complète :</strong> Toutes vos images au même endroit, accès instantané, comparaison facilitée</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Outils d'analyse :</strong> Zoom, contraste, mesures, annotations, export DICOM</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Détection précoce problèmes = plans de traitement préventifs + facturation
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">💳</div>
                 <h3>INAMI / e-Health</h3>
                 <p>Intégration complète système belge INAMI. Attestations électroniques, mutuelles, facturation automatisée.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Facturation automatique :</strong> Un clic = attestation INAMI envoyée, nomenclature correcte, remboursement garanti</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Vérification mutuelle :</strong> Statut patient vérifié en temps réel, droits affichés, plafonds consultables</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Certificats automatiques :</strong> Génération certificat absence avec envoi email patient intégré</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Zéro perte de facturation + trésorerie optimisée = +15-20% revenus récupérés
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">📈</div>
                 <h3>Rapports Intelligents</h3>
                 <p>Analytics avancés, KPIs en temps réel, prévisions IA, recommandations personnalisées pour optimiser votre pratique.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>KPIs en temps réel :</strong> CA, taux remplissage, patients actifs, analyses par praticien/service</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Prédictions IA :</strong> RCE prédit vos revenus à 3/6/12 mois, identifie opportunités de croissance</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Recommandations actionnables :</strong> Créneaux à optimiser, patients à rappeler, services sous-utilisés</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Optimisation planning + relances automatiques = +10-15% CA sans effort
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="feature-card">
+            <div class="feature-card" onclick="toggleFeature(this)">
                 <div class="feature-icon">🌙</div>
                 <h3>Dark/Light Mode</h3>
                 <p>Interface adaptative avec thème clair et sombre. Persistance des préférences, optimisé pour longues sessions.</p>
+                <div class="feature-expand-btn">En savoir plus →</div>
+                <div class="feature-details">
+                    <div class="feature-details-content">
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Confort visuel :</strong> Dark mode pour réduire fatigue oculaire lors de longues journées</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Préférences sauvées :</strong> Choix mémorisé par utilisateur, bascule instantanée d'un clic</span>
+                        </div>
+                        <div class="feature-benefit">
+                            <span class="feature-benefit-icon">✓</span>
+                            <span><strong>Design moderne :</strong> Interface professionnelle qui valorise votre cabinet auprès des patients</span>
+                        </div>
+                        <div class="feature-roi">
+                            💰 ROI : Moins de fatigue = productivité maintenue toute la journée
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -782,9 +1033,8 @@
     <section class="ai-tech" id="technology">
         <h2 class="section-title">Propulsé par RCE AI Engine</h2>
         <p class="section-subtitle">
-            <a href="https://ismaikami.github.io/rce-website/" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--primary);">RCE (Recursive Cognitive Engine)</a>
-            est notre moteur d'intelligence artificielle propriétaire qui orchestre intelligemment<br>
-            GPT-4, Claude Sonnet et Gemini Pro en fonction des besoins spécifiques de chaque tâche
+            RCE (Recursive Cognitive Engine) est notre moteur d'intelligence artificielle propriétaire<br>
+            qui orchestre intelligemment plusieurs modèles IA en fonction des besoins spécifiques de chaque tâche
         </p>
 
         <div class="ai-models">
@@ -804,11 +1054,6 @@
                     <div class="tech-badge">Gemini Pro Intégré</div>
                     <div class="tech-badge">Optimisation Auto</div>
                     <div class="tech-badge">Sécurité Médicale</div>
-                </div>
-                <div style="margin-top: 30px;">
-                    <a href="https://ismaikami.github.io/rce-website/" target="_blank" class="btn btn-primary" style="display: inline-block;">
-                        🌐 En savoir plus sur RCE →
-                    </a>
                 </div>
             </div>
         </div>
@@ -903,8 +1148,7 @@
         <div style="text-align: center; margin-top: 60px; padding: 40px; background: rgba(0, 102, 255, 0.1); border-radius: 16px; max-width: 900px; margin-left: auto; margin-right: auto;">
             <p style="font-size: 18px; line-height: 1.8; color: var(--text-muted);">
                 💡 <strong>Tous les plans incluent :</strong> Mises à jour automatiques, sécurité médicale maximale,
-                hébergement cloud certifié, conformité RGPD, backups quotidiens, et accès à toutes les nouvelles fonctionnalités IA développées par
-                <a href="https://ismaikami.github.io/rce-website/" target="_blank" style="color: var(--primary); font-weight: 600;">RCE</a>
+                hébergement cloud certifié, conformité RGPD, backups quotidiens, et accès à toutes les nouvelles fonctionnalités IA développées par RCE
             </p>
         </div>
     </section>
@@ -955,10 +1199,7 @@
                     <strong style="font-size: 16px;">Développement et Design by Ismail Sialyen</strong>
                 </div>
                 <div style="font-size: 15px; margin-bottom: 10px;">
-                    Powered by <a href="https://ismaikami.github.io/rce-website/" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none;">RCE</a> <span style="color: var(--text-muted);">(AI Engine)</span>
-                </div>
-                <div style="font-size: 13px; color: var(--text-muted); margin-top: 20px;">
-                    RCE orchestre intelligemment GPT-4 Turbo, Claude Sonnet et Gemini Pro
+                    Powered by <strong style="color: var(--primary);">RCE</strong> <span style="color: var(--text-muted);">(AI Engine)</span>
                 </div>
                 <div style="font-size: 12px; color: var(--text-muted); margin-top: 20px;">
                     © 2025 DentalCockpit Pro. Tous droits réservés.
@@ -968,6 +1209,29 @@
     </footer>
 
     <script>
+        // Toggle feature card details
+        function toggleFeature(card) {
+            const details = card.querySelector('.feature-details');
+            const btn = card.querySelector('.feature-expand-btn');
+
+            // Close all other cards first
+            document.querySelectorAll('.feature-details.active').forEach(detail => {
+                if (detail !== details) {
+                    detail.classList.remove('active');
+                    detail.parentElement.querySelector('.feature-expand-btn').textContent = 'En savoir plus →';
+                }
+            });
+
+            // Toggle current card
+            if (details.classList.contains('active')) {
+                details.classList.remove('active');
+                btn.textContent = 'En savoir plus →';
+            } else {
+                details.classList.add('active');
+                btn.textContent = 'Fermer ✕';
+            }
+        }
+
         // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
