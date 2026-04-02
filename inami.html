@@ -3,848 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INAMI - K2 Dent</title>
+    <title>INAMI - DentalCockpit Pro</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0066FF; --primary-dark: #0052CC; --secondary: #00C896;
+            --danger: #FF3B30; --warning: #FF9500; --success: #34C759; --purple: #8B5CF6;
+            --bg-main: #0A0E1A; --bg-card: #141B2D; --bg-hover: #1E2740;
+            --text-primary: #FFFFFF; --text-secondary: #8B92A8; --border: #2A3347;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
-
+        [data-theme="light"] {
+            --bg-main: #F5F7FA; --bg-card: #FFFFFF; --bg-hover: #E8ECF1;
+            --text-primary: #1A1D29; --text-secondary: #6B7280; --border: #E5E7EB;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0A0E1A 0%, #1E2740 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            background: var(--bg-main); color: var(--text-primary); overflow-x: hidden;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .app-container { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+        .sidebar {
+            background: var(--bg-card); border-right: 1px solid var(--border); padding: 24px 16px;
+            display: flex; flex-direction: column; position: fixed; height: 100vh; width: 280px; overflow-y: auto;
         }
-
-        .header {
-            background: #141B2D;
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 24px;
-            border: 1px solid #2A3347;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .logo { display: flex; align-items: center; gap: 12px; padding: 8px 12px; margin-bottom: 32px; }
+        .logo-icon {
+            width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px;
         }
-
-        .header-left h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #FFFFFF;
-            margin-bottom: 8px;
+        .logo-text { font-size: 19px; font-weight: 700; }
+        .nav-section { margin-bottom: 24px; }
+        .nav-title {
+            font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);
+            padding: 0 12px; margin-bottom: 8px; letter-spacing: 0.5px;
         }
-
-        .header-subtitle {
-            font-size: 14px;
-            color: #8B92A8;
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 12px; border-radius: 10px;
+            cursor: pointer; transition: all 0.2s; color: var(--text-secondary); text-decoration: none; font-size: 14px;
         }
-
-        .header-right {
-            display: flex;
-            gap: 12px;
+        .nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .nav-item.active { background: var(--primary); color: var(--text-primary); }
+        .main-content { margin-left: 280px; display: flex; flex-direction: column; }
+        .topbar {
+            background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 16px 32px;
+            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
         }
-
-        .btn {
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        .search-bar { flex: 1; max-width: 500px; position: relative; }
+        .search-bar input {
+            width: 100%; padding: 12px 16px 12px 44px; background: var(--bg-main); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text-primary); font-size: 14px; transition: all 0.2s;
         }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0066FF, #0052CC);
-            color: white;
+        .search-bar input:focus { outline: none; border-color: var(--primary); background: var(--bg-hover); }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        .topbar-actions { display: flex; gap: 12px; align-items: center; }
+        .icon-btn {
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px;
+            cursor: pointer; transition: all 0.2s; position: relative;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 102, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: #1E2740;
-            color: #FFFFFF;
-            border: 1px solid #2A3347;
-        }
-
-        .btn-secondary:hover {
-            background: #2A3347;
-        }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 24px;
-        }
-
-        .card {
-            background: #141B2D;
-            border-radius: 20px;
-            border: 1px solid #2A3347;
-            padding: 24px;
-        }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #FFFFFF;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 8px;
-        }
-
-        select, input, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0A0E1A;
-            border: 1px solid #2A3347;
-            border-radius: 10px;
-            color: #FFFFFF;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        select:focus, input:focus, textarea:focus {
-            outline: none;
-            border-color: #0066FF;
-            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .act-search {
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .act-results {
-            background: #0A0E1A;
-            border: 1px solid #2A3347;
-            border-radius: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 8px;
-            display: none;
-        }
-
-        .act-results.show {
-            display: block;
-        }
-
-        .act-item {
-            padding: 12px 16px;
-            cursor: pointer;
-            border-bottom: 1px solid #2A3347;
-            transition: all 0.2s;
-        }
-
-        .act-item:hover {
-            background: #1E2740;
-        }
-
-        .act-item:last-child {
-            border-bottom: none;
-        }
-
-        .act-code {
-            font-weight: 600;
-            color: #0066FF;
-        }
-
-        .act-description {
-            font-size: 13px;
-            color: #8B92A8;
-            margin-top: 4px;
-        }
-
-        .act-price {
-            font-size: 12px;
-            color: #00C896;
-            margin-top: 4px;
-        }
-
-        .tooth-selector {
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .tooth-btn {
-            padding: 8px;
-            background: #0A0E1A;
-            border: 1px solid #2A3347;
-            border-radius: 8px;
-            color: #8B92A8;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .tooth-btn:hover {
-            border-color: #0066FF;
-            color: #FFFFFF;
-        }
-
-        .tooth-btn.selected {
-            background: #0066FF;
-            border-color: #0066FF;
-            color: #FFFFFF;
-        }
-
-        .calculation-panel {
-            background: #0A0E1A;
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 20px;
-        }
-
-        .calc-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #2A3347;
-        }
-
-        .calc-row:last-child {
-            border-bottom: none;
-            font-weight: 700;
-            font-size: 16px;
-            padding-top: 12px;
-            margin-top: 4px;
-        }
-
-        .calc-label {
-            color: #8B92A8;
-        }
-
-        .calc-value {
-            color: #FFFFFF;
-        }
-
-        .acts-table {
-            width: 100%;
-            margin-top: 16px;
-        }
-
-        .acts-table table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .acts-table th {
-            background: #0A0E1A;
-            padding: 12px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: 600;
-            color: #8B92A8;
-            text-transform: uppercase;
-            border-bottom: 1px solid #2A3347;
-        }
-
-        .acts-table td {
-            padding: 12px;
-            border-bottom: 1px solid #2A3347;
-            color: #FFFFFF;
-            font-size: 14px;
-        }
-
-        .acts-table tr:hover {
-            background: #0A0E1A;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #8B92A8;
-        }
-
-        .empty-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-        }
-
+        .icon-btn:hover { background: var(--bg-hover); border-color: var(--primary); transform: translateY(-2px); }
         .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
+            position: absolute; top: -4px; right: -4px; background: var(--danger); color: white;
+            font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 10px;
         }
-
-        .badge-bim {
-            background: rgba(255, 149, 0, 0.2);
-            color: #FF9500;
+        .content { padding: 32px; display: grid; gap: 24px; }
+        .placeholder-panel {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+            padding: 80px 32px; text-align: center; min-height: 500px; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
         }
-
-        .badge-success {
-            background: rgba(52, 199, 89, 0.2);
-            color: #34C759;
-        }
-
-        .info-box {
-            background: rgba(0, 102, 255, 0.1);
-            border: 1px solid rgba(0, 102, 255, 0.3);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #8B92A8;
-        }
-
-        .quantity-input {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .qty-btn {
-            width: 36px;
-            height: 36px;
-            background: #0A0E1A;
-            border: 1px solid #2A3347;
-            border-radius: 8px;
-            color: #FFFFFF;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            transition: all 0.2s;
-        }
-
-        .qty-btn:hover {
-            border-color: #0066FF;
-        }
-
-        .qty-value {
-            flex: 1;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .delete-btn {
-            padding: 8px 16px;
-            background: rgba(255, 59, 48, 0.1);
-            border: 1px solid #FF3B30;
-            border-radius: 8px;
-            color: #FF3B30;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .delete-btn:hover {
-            background: rgba(255, 59, 48, 0.2);
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #8B92A8;
-            text-decoration: none;
-            font-size: 14px;
-            margin-bottom: 20px;
-            transition: all 0.2s;
-        }
-
-        .back-btn:hover {
-            color: #FFFFFF;
-        }
+        .placeholder-icon { font-size: 120px; margin-bottom: 24px; opacity: 0.8; }
+        .placeholder-title { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
+        .placeholder-description { font-size: 16px; color: var(--text-secondary); line-height: 1.6; max-width: 600px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="dashboard.html" class="back-btn">← Retour au Dashboard</a>
-
-        <div class="header">
-            <div class="header-left">
-                <h1>💳 INAMI - Attestations de Soins</h1>
-                <div class="header-subtitle">🇧🇪 Nomenclature INAMI Article 5 | 2025-2026</div>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🦷</div>
+                <div class="logo-text">DentalCockpit Pro</div>
             </div>
-            <div class="header-right">
-                <button class="btn btn-secondary" onclick="window.location.href='patients.html'">
-                    👥 Patients
-                </button>
-            </div>
-        </div>
-
-        <div class="content-grid">
-            <!-- Left: Form -->
-            <div class="card">
-                <div class="card-title">➕ Nouvelle Attestation INAMI</div>
-
-                <div class="info-box">
-                    ℹ️ Sélectionnez un patient et un acte INAMI. Le calcul de remboursement sera automatique (BIM, ticket modérateur).
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-title">Navigation</div>
+                    <a href="dashboard.html" class="nav-item"><span>📊</span><span>Dashboard Patient</span></a>
+                    <a href="patients.html" class="nav-item"><span>👥</span><span>Patients</span></a>
+                    <a href="agenda.html" class="nav-item"><span>📅</span><span>Agenda</span></a>
+                    <a href="treatment.html" class="nav-item"><span>🎯</span><span>Plan de Traitement</span></a>
                 </div>
-
-                <form id="actForm" onsubmit="saveAct(event)">
-                    <div class="form-group">
-                        <label for="patientSelect">Patient *</label>
-                        <select id="patientSelect" required onchange="updatePatientInfo()">
-                            <option value="">-- Sélectionner un patient --</option>
-                        </select>
-                        <div id="patientInfo" style="margin-top: 8px; font-size: 13px; color: #8B92A8;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="actSearch">Acte INAMI *</label>
-                        <div class="act-search">
-                            <input
-                                type="text"
-                                id="actSearch"
-                                placeholder="Rechercher par code ou description (ex: 371114, détartrage...)"
-                                oninput="searchActs()"
-                                onfocus="searchActs()"
-                            >
-                            <div id="actResults" class="act-results"></div>
-                        </div>
-                        <input type="hidden" id="selectedActCode">
-                    </div>
-
-                    <div id="toothSection" class="form-group" style="display: none;">
-                        <label>Numéro de dent (FDI)</label>
-                        <div class="tooth-selector" id="toothSelector"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="quantity">Quantité</label>
-                        <div class="quantity-input">
-                            <button type="button" class="qty-btn" onclick="changeQuantity(-1)">−</button>
-                            <div class="qty-value" id="quantityDisplay">1</div>
-                            <button type="button" class="qty-btn" onclick="changeQuantity(1)">+</button>
-                            <input type="hidden" id="quantity" value="1">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="actDate">Date de l'acte *</label>
-                        <input type="date" id="actDate" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="notes">Notes (optionnel)</label>
-                        <textarea id="notes" placeholder="Notes pour l'acte..."></textarea>
-                    </div>
-
-                    <div class="calculation-panel">
-                        <div class="calc-row">
-                            <span class="calc-label">Honoraire INAMI</span>
-                            <span class="calc-value" id="calcHonoraire">0.00 €</span>
-                        </div>
-                        <div class="calc-row">
-                            <span class="calc-label">Part mutuelle</span>
-                            <span class="calc-value" id="calcMutuelle">0.00 €</span>
-                        </div>
-                        <div class="calc-row">
-                            <span class="calc-label">Ticket modérateur patient</span>
-                            <span class="calc-value" id="calcPatient">0.00 €</span>
-                        </div>
-                        <div class="calc-row">
-                            <span class="calc-label">TOTAL</span>
-                            <span class="calc-value" id="calcTotal">0.00 €</span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
-                        ✅ Enregistrer l'attestation
-                    </button>
-                </form>
+                <div class="nav-section">
+                    <div class="nav-title">Imagerie Médicale</div>
+                    <a href="xrays.html" class="nav-item"><span>📷</span><span>Radiographies X</span></a>
+                    <a href="scanner3d.html" class="nav-item"><span>🔬</span><span>Scanner 3D</span></a>
+                    <a href="photos.html" class="nav-item"><span>🖼️</span><span>Photos Intra-orales</span></a>
+                    <a href="camera.html" class="nav-item"><span>📸</span><span>Caméra Temps Réel</span></a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-title">Intelligence Artificielle</div>
+                    <a href="ai-analysis.html" class="nav-item"><span>🤖</span><span>Analyses IA</span></a>
+                    <a href="ai-reports.html" class="nav-item"><span>📈</span><span>Rapports Intelligents</span></a>
+                    <a href="ai-history.html" class="nav-item"><span>🔄</span><span>Historique Complet IA</span></a>
+                    <a href="ai-realtime.html" class="nav-item"><span>⚡</span><span>IA Temps Réel</span></a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-title">Administration</div>
+                    <a href="inami.html" class="nav-item active"><span>💳</span><span>INAMI / e-Health</span></a>
+                    <a href="mutuelles.html" class="nav-item"><span>🏥</span><span>Mutuelles</span></a>
+                    <a href="certificates.html" class="nav-item"><span>📄</span><span>Certificats</span></a>
+                    <a href="billing.html" class="nav-item"><span>📊</span><span>Facturation</span></a>
+                </div>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="topbar">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Rechercher...">
+                </div>
+                <div class="topbar-actions">
+                    <div class="icon-btn" onclick="toggleTheme()" id="themeToggle" title="Changer le thème">🌙</div>
+                    <div class="icon-btn">🔔<span class="badge">5</span></div>
+                    <div class="icon-btn">⚙️</div>
+                    <div class="icon-btn">👤</div>
+                </div>
             </div>
-
-            <!-- Right: Recent Acts -->
-            <div class="card">
-                <div class="card-title">📋 Attestations récentes</div>
-                <div id="actsList"></div>
+            <div class="content">
+                <div class="placeholder-panel">
+                    <div class="placeholder-icon">💳</div>
+                    <div class="placeholder-title">Intégration INAMI</div>
+                    <div class="placeholder-description">Connexion directe avec le système INAMI belge et e-Health. Facturation électronique, vérification des droits patients, et attestations de soins automatisées.</div>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
-
-    <script src="js/belgium.js"></script>
-    <script src="js/auth-rbac.js"></script>
     <script>
-        let currentQuantity = 1;
-        let selectedAct = null;
-        let selectedTooth = null;
-
-        // Check authentication
-        if (!Auth.isLoggedIn()) {
-            window.location.href = 'login.html';
-        }
-
-        // Check permissions
-        const currentUser = Auth.getCurrentUser();
-        if (!Auth.hasPermission('inami.view')) {
-            alert('❌ Vous n\'avez pas accès à ce module');
-            window.location.href = 'dashboard.html';
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPatients();
-            loadActs();
-            document.getElementById('actDate').valueAsDate = new Date();
-            generateToothSelector();
-        });
-
-        // Load patients
-        function loadPatients() {
-            const patients = JSON.parse(localStorage.getItem('k2dent_patients') || '[]');
-            const select = document.getElementById('patientSelect');
-
-            patients.forEach(patient => {
-                const option = document.createElement('option');
-                option.value = patient.id;
-                option.textContent = `${patient.firstName} ${patient.lastName} - ${patient.niss}`;
-                option.dataset.patient = JSON.stringify(patient);
-                select.appendChild(option);
-            });
-        }
-
-        // Update patient info
-        function updatePatientInfo() {
-            const select = document.getElementById('patientSelect');
-            const infoDiv = document.getElementById('patientInfo');
-
-            if (!select.value) {
-                infoDiv.innerHTML = '';
-                return;
-            }
-
-            const patient = JSON.parse(select.options[select.selectedIndex].dataset.patient);
-            let info = `NISS: ${patient.niss} | Mutuelle: ${getMutuelleName(patient.mutuelleCode)}`;
-
-            if (patient.bim) {
-                info += ' | <span class="badge badge-bim">BIM</span>';
-            }
-
-            infoDiv.innerHTML = info;
-            updateCalculation();
-        }
-
-        // Get mutuelle name
-        function getMutuelleName(code) {
-            const mutuelles = {
-                '100': 'UNMS',
-                '200': 'Solidaris',
-                '300': 'MC/CM',
-                '400': 'Partenamut',
-                '500': 'Mutlib',
-                '600': 'CAAMI',
-                '900': 'HR Rail'
-            };
-            return mutuelles[code] || code;
-        }
-
-        // Search acts
-        function searchActs() {
-            const query = document.getElementById('actSearch').value.toLowerCase();
-            const resultsDiv = document.getElementById('actResults');
-
-            if (query.length < 2) {
-                resultsDiv.classList.remove('show');
-                return;
-            }
-
-            const acts = BelgiumUtils.INAMI_ACTS.filter(act =>
-                act.code.toLowerCase().includes(query) ||
-                act.description.toLowerCase().includes(query)
-            ).slice(0, 10);
-
-            if (acts.length === 0) {
-                resultsDiv.innerHTML = '<div class="act-item">Aucun acte trouvé</div>';
-                resultsDiv.classList.add('show');
-                return;
-            }
-
-            resultsDiv.innerHTML = acts.map(act => `
-                <div class="act-item" onclick='selectAct(${JSON.stringify(act)})'>
-                    <div class="act-code">${act.code}</div>
-                    <div class="act-description">${act.description}</div>
-                    <div class="act-price">Honoraire: ${act.honoraire.toFixed(2)} € | Part mutuelle: ${act.partMutuelle.toFixed(2)} €</div>
-                </div>
-            `).join('');
-
-            resultsDiv.classList.add('show');
-        }
-
-        // Select act
-        function selectAct(act) {
-            selectedAct = act;
-            document.getElementById('actSearch').value = `${act.code} - ${act.description}`;
-            document.getElementById('selectedActCode').value = act.code;
-            document.getElementById('actResults').classList.remove('show');
-
-            // Show tooth selector if needed
-            const toothSection = document.getElementById('toothSection');
-            if (act.requiresTooth) {
-                toothSection.style.display = 'block';
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
             } else {
-                toothSection.style.display = 'none';
-                selectedTooth = null;
+                html.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
             }
-
-            updateCalculation();
         }
-
-        // Generate tooth selector (FDI notation)
-        function generateToothSelector() {
-            const selector = document.getElementById('toothSelector');
-            const quadrants = [
-                [18, 17, 16, 15, 14, 13, 12, 11],  // Upper right
-                [21, 22, 23, 24, 25, 26, 27, 28],  // Upper left
-                [48, 47, 46, 45, 44, 43, 42, 41],  // Lower right
-                [31, 32, 33, 34, 35, 36, 37, 38]   // Lower left
-            ];
-
-            quadrants.forEach((quadrant, idx) => {
-                if (idx === 2 || idx === 3) {
-                    // Add separator
-                    const separator = document.createElement('div');
-                    separator.style.gridColumn = '1 / -1';
-                    separator.style.height = '8px';
-                    selector.appendChild(separator);
-                }
-
-                quadrant.forEach(tooth => {
-                    const btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'tooth-btn';
-                    btn.textContent = tooth;
-                    btn.onclick = () => selectTooth(tooth, btn);
-                    selector.appendChild(btn);
-                });
-            });
-        }
-
-        // Select tooth
-        function selectTooth(tooth, btn) {
-            // Deselect all
-            document.querySelectorAll('.tooth-btn').forEach(b => b.classList.remove('selected'));
-
-            // Select this one
-            btn.classList.add('selected');
-            selectedTooth = tooth;
-        }
-
-        // Change quantity
-        function changeQuantity(delta) {
-            currentQuantity = Math.max(1, currentQuantity + delta);
-            document.getElementById('quantityDisplay').textContent = currentQuantity;
-            document.getElementById('quantity').value = currentQuantity;
-            updateCalculation();
-        }
-
-        // Update calculation
-        function updateCalculation() {
-            if (!selectedAct) {
-                document.getElementById('calcHonoraire').textContent = '0.00 €';
-                document.getElementById('calcMutuelle').textContent = '0.00 €';
-                document.getElementById('calcPatient').textContent = '0.00 €';
-                document.getElementById('calcTotal').textContent = '0.00 €';
-                return;
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            if (savedTheme === 'light') {
+                html.setAttribute('data-theme', 'light');
+                if (themeToggle) themeToggle.textContent = '☀️';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                if (themeToggle) themeToggle.textContent = '🌙';
             }
-
-            const select = document.getElementById('patientSelect');
-            const hasBIM = select.value ? JSON.parse(select.options[select.selectedIndex].dataset.patient).bim : false;
-            const qty = currentQuantity;
-
-            const honoraire = selectedAct.honoraire * qty;
-            const partMutuelle = (hasBIM ? selectedAct.partMutuelleBIM : selectedAct.partMutuelle) * qty;
-            const ticketMod = honoraire - partMutuelle;
-
-            document.getElementById('calcHonoraire').textContent = honoraire.toFixed(2) + ' €';
-            document.getElementById('calcMutuelle').textContent = partMutuelle.toFixed(2) + ' €';
-            document.getElementById('calcPatient').textContent = ticketMod.toFixed(2) + ' €';
-            document.getElementById('calcTotal').textContent = honoraire.toFixed(2) + ' €';
         }
-
-        // Save act
-        function saveAct(event) {
-            event.preventDefault();
-
-            if (!Auth.hasPermission('inami.create')) {
-                alert('❌ Vous n\'avez pas la permission de créer des attestations INAMI');
-                return;
-            }
-
-            if (!selectedAct) {
-                alert('⚠️ Veuillez sélectionner un acte INAMI');
-                return;
-            }
-
-            if (selectedAct.requiresTooth && !selectedTooth) {
-                alert('⚠️ Veuillez sélectionner une dent');
-                return;
-            }
-
-            const select = document.getElementById('patientSelect');
-            const patient = JSON.parse(select.options[select.selectedIndex].dataset.patient);
-            const qty = currentQuantity;
-            const honoraire = selectedAct.honoraire * qty;
-            const partMutuelle = (patient.bim ? selectedAct.partMutuelleBIM : selectedAct.partMutuelle) * qty;
-            const ticketMod = honoraire - partMutuelle;
-
-            const act = {
-                id: `act-${Date.now()}`,
-                patientId: patient.id,
-                patientName: `${patient.firstName} ${patient.lastName}`,
-                patientNISS: patient.niss,
-                actCode: selectedAct.code,
-                actDescription: selectedAct.description,
-                tooth: selectedTooth,
-                quantity: qty,
-                date: document.getElementById('actDate').value,
-                honoraire: honoraire,
-                partMutuelle: partMutuelle,
-                ticketModerateur: ticketMod,
-                hasBIM: patient.bim,
-                mutuelleCode: patient.mutuelleCode,
-                notes: document.getElementById('notes').value,
-                createdAt: new Date().toISOString(),
-                createdBy: currentUser.username
-            };
-
-            // Save to localStorage
-            const acts = JSON.parse(localStorage.getItem('k2dent_acts') || '[]');
-            acts.unshift(act);
-            localStorage.setItem('k2dent_acts', JSON.stringify(acts));
-
-            alert('✅ Attestation INAMI enregistrée avec succès');
-
-            // Reset form
-            document.getElementById('actForm').reset();
-            document.getElementById('actDate').valueAsDate = new Date();
-            selectedAct = null;
-            selectedTooth = null;
-            currentQuantity = 1;
-            document.getElementById('quantityDisplay').textContent = '1';
-            document.getElementById('actSearch').value = '';
-            document.getElementById('patientInfo').innerHTML = '';
-            document.querySelectorAll('.tooth-btn').forEach(b => b.classList.remove('selected'));
-            updateCalculation();
-
-            // Reload acts list
-            loadActs();
-        }
-
-        // Load acts
-        function loadActs() {
-            const acts = JSON.parse(localStorage.getItem('k2dent_acts') || '[]');
-            const listDiv = document.getElementById('actsList');
-
-            if (acts.length === 0) {
-                listDiv.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon">📋</div>
-                        <div>Aucune attestation INAMI enregistrée</div>
-                    </div>
-                `;
-                return;
-            }
-
-            // Show last 10 acts
-            const recentActs = acts.slice(0, 10);
-
-            listDiv.innerHTML = `
-                <div class="acts-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Patient</th>
-                                <th>Acte</th>
-                                <th>Montant</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${recentActs.map(act => `
-                                <tr>
-                                    <td>${formatDate(act.date)}</td>
-                                    <td>
-                                        ${act.patientName}<br>
-                                        <small style="color: #8B92A8;">${act.actCode}${act.tooth ? ` (${act.tooth})` : ''}</small>
-                                    </td>
-                                    <td>
-                                        ${act.actDescription.substring(0, 30)}...
-                                        ${act.hasBIM ? '<br><span class="badge badge-bim">BIM</span>' : ''}
-                                    </td>
-                                    <td>
-                                        <strong>${act.honoraire.toFixed(2)} €</strong><br>
-                                        <small style="color: #8B92A8;">Patient: ${act.ticketModerateur.toFixed(2)} €</small>
-                                    </td>
-                                    <td>
-                                        ${Auth.hasPermission('inami.delete') ? `
-                                            <button class="delete-btn" onclick="deleteAct('${act.id}')">🗑️</button>
-                                        ` : ''}
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-
-        // Format date
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('fr-BE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        }
-
-        // Delete act
-        function deleteAct(actId) {
-            if (!confirm('❓ Êtes-vous sûr de vouloir supprimer cette attestation ?')) {
-                return;
-            }
-
-            const acts = JSON.parse(localStorage.getItem('k2dent_acts') || '[]');
-            const filtered = acts.filter(a => a.id !== actId);
-            localStorage.setItem('k2dent_acts', JSON.stringify(filtered));
-
-            loadActs();
-            alert('✅ Attestation supprimée');
-        }
-
-        // Close search results when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.act-search')) {
-                document.getElementById('actResults').classList.remove('show');
-            }
-        });
+        document.addEventListener('DOMContentLoaded', loadTheme);
     </script>
 </body>
 </html>

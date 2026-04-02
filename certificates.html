@@ -3,630 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificats - K2 Dent</title>
+    <title>Certificats - DentalCockpit Pro</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0066FF; --primary-dark: #0052CC; --secondary: #00C896;
+            --danger: #FF3B30; --warning: #FF9500; --success: #34C759; --purple: #8B5CF6;
+            --bg-main: #0A0E1A; --bg-card: #141B2D; --bg-hover: #1E2740;
+            --text-primary: #FFFFFF; --text-secondary: #8B92A8; --border: #2A3347;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
-
+        [data-theme="light"] {
+            --bg-main: #F5F7FA; --bg-card: #FFFFFF; --bg-hover: #E8ECF1;
+            --text-primary: #1A1D29; --text-secondary: #6B7280; --border: #E5E7EB;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0A0E1A 0%, #1E2740 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            background: var(--bg-main); color: var(--text-primary); overflow-x: hidden;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        .app-container { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+        .sidebar {
+            background: var(--bg-card); border-right: 1px solid var(--border); padding: 24px 16px;
+            display: flex; flex-direction: column; position: fixed; height: 100vh; width: 280px; overflow-y: auto;
         }
-
-        .header {
-            background: #141B2D;
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 24px;
-            border: 1px solid #2A3347;
+        .logo { display: flex; align-items: center; gap: 12px; padding: 8px 12px; margin-bottom: 32px; }
+        .logo-icon {
+            width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px;
         }
-
-        .header h1 {
-            font-size: 32px;
-            font-weight: 800;
-            color: #FFFFFF;
-            margin-bottom: 8px;
+        .logo-text { font-size: 19px; font-weight: 700; }
+        .nav-section { margin-bottom: 24px; }
+        .nav-title {
+            font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-secondary);
+            padding: 0 12px; margin-bottom: 8px; letter-spacing: 0.5px;
         }
-
-        .header-subtitle {
-            font-size: 14px;
-            color: #8B92A8;
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 12px; border-radius: 10px;
+            cursor: pointer; transition: all 0.2s; color: var(--text-secondary); text-decoration: none; font-size: 14px;
         }
-
-        .content-grid {
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 24px;
+        .nav-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .nav-item.active { background: var(--primary); color: var(--text-primary); }
+        .main-content { margin-left: 280px; display: flex; flex-direction: column; }
+        .topbar {
+            background: var(--bg-card); border-bottom: 1px solid var(--border); padding: 16px 32px;
+            display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
         }
-
-        .card {
-            background: #141B2D;
-            border-radius: 20px;
-            border: 1px solid #2A3347;
-            padding: 24px;
+        .search-bar { flex: 1; max-width: 500px; position: relative; }
+        .search-bar input {
+            width: 100%; padding: 12px 16px 12px 44px; background: var(--bg-main); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text-primary); font-size: 14px; transition: all 0.2s;
         }
-
-        .card-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #FFFFFF;
-            margin-bottom: 20px;
+        .search-bar input:focus { outline: none; border-color: var(--primary); background: var(--bg-hover); }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); }
+        .topbar-actions { display: flex; gap: 12px; align-items: center; }
+        .icon-btn {
+            width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+            background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px;
+            cursor: pointer; transition: all 0.2s; position: relative;
         }
-
-        .template-item {
-            background: #0A0E1A;
-            border: 1px solid #2A3347;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
+        .icon-btn:hover { background: var(--bg-hover); border-color: var(--primary); transform: translateY(-2px); }
+        .badge {
+            position: absolute; top: -4px; right: -4px; background: var(--danger); color: white;
+            font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 10px;
         }
-
-        .template-item:hover {
-            border-color: #0066FF;
-            background: #1E2740;
+        .content { padding: 32px; display: grid; gap: 24px; }
+        .placeholder-panel {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px;
+            padding: 80px 32px; text-align: center; min-height: 500px; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
         }
-
-        .template-item.active {
-            border-color: #0066FF;
-            background: #1E2740;
-        }
-
-        .template-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .template-name {
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 4px;
-        }
-
-        .template-desc {
-            font-size: 12px;
-            color: #8B92A8;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 8px;
-        }
-
-        select, input, textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: #0A0E1A;
-            border: 1px solid #2A3347;
-            border-radius: 10px;
-            color: #FFFFFF;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        select:focus, input:focus, textarea:focus {
-            outline: none;
-            border-color: #0066FF;
-            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .btn {
-            padding: 14px 28px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0066FF, #0052CC);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 102, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: #1E2740;
-            color: #FFFFFF;
-            border: 1px solid #2A3347;
-        }
-
-        .preview-panel {
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            color: #000;
-            font-family: 'Times New Roman', serif;
-            min-height: 600px;
-        }
-
-        .preview-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #000;
-        }
-
-        .preview-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .preview-body {
-            line-height: 1.8;
-            font-size: 14px;
-        }
-
-        .preview-footer {
-            margin-top: 60px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .signature {
-            text-align: center;
-        }
-
-        .info-box {
-            background: rgba(0, 102, 255, 0.1);
-            border: 1px solid rgba(0, 102, 255, 0.3);
-            border-radius: 10px;
-            padding: 12px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #8B92A8;
-        }
-
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #8B92A8;
-            text-decoration: none;
-            font-size: 14px;
-            margin-bottom: 20px;
-            transition: all 0.2s;
-        }
-
-        .back-btn:hover {
-            color: #FFFFFF;
-        }
-
-        .history-list {
-            margin-top: 16px;
-        }
-
-        .history-item {
-            background: #0A0E1A;
-            border: 1px solid #2A3347;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-
-        .history-date {
-            font-size: 12px;
-            color: #8B92A8;
-            margin-bottom: 4px;
-        }
-
-        .history-title {
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-bottom: 4px;
-        }
-
-        .history-patient {
-            font-size: 13px;
-            color: #8B92A8;
-        }
+        .placeholder-icon { font-size: 120px; margin-bottom: 24px; opacity: 0.8; }
+        .placeholder-title { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
+        .placeholder-description { font-size: 16px; color: var(--text-secondary); line-height: 1.6; max-width: 600px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="dashboard.html" class="back-btn">← Retour au Dashboard</a>
-
-        <div class="header">
-            <h1>📄 Certificats Médicaux</h1>
-            <div class="header-subtitle">🇧🇪 Templates conformes aux normes belges</div>
-        </div>
-
-        <div class="content-grid">
-            <!-- Left: Templates + Form -->
-            <div>
-                <div class="card">
-                    <div class="card-title">Types de certificats</div>
-
-                    <div class="template-item active" onclick="selectTemplate('incapacity')">
-                        <div class="template-icon">🏥</div>
-                        <div class="template-name">Incapacité de travail</div>
-                        <div class="template-desc">Pour arrêt de travail (mutuelle)</div>
-                    </div>
-
-                    <div class="template-item" onclick="selectTemplate('care')">
-                        <div class="template-icon">🦷</div>
-                        <div class="template-name">Soins donnés</div>
-                        <div class="template-desc">Attestation de consultation/soins</div>
-                    </div>
-
-                    <div class="template-item" onclick="selectTemplate('medical')">
-                        <div class="template-icon">📋</div>
-                        <div class="template-name">Certificat médical</div>
-                        <div class="template-desc">Certificat médical général</div>
-                    </div>
-
-                    <div class="template-item" onclick="selectTemplate('sport')">
-                        <div class="template-icon">⚽</div>
-                        <div class="template-name">Aptitude sportive</div>
-                        <div class="template-desc">Certificat médical pour sport</div>
-                    </div>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">🦷</div>
+                <div class="logo-text">DentalCockpit Pro</div>
+            </div>
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-title">Navigation</div>
+                    <a href="dashboard.html" class="nav-item"><span>📊</span><span>Dashboard Patient</span></a>
+                    <a href="patients.html" class="nav-item"><span>👥</span><span>Patients</span></a>
+                    <a href="agenda.html" class="nav-item"><span>📅</span><span>Agenda</span></a>
+                    <a href="treatment.html" class="nav-item"><span>🎯</span><span>Plan de Traitement</span></a>
                 </div>
-
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-title">Informations</div>
-
-                    <form id="certificateForm" onsubmit="generateCertificate(event)">
-                        <div class="form-group">
-                            <label for="patientSelect">Patient *</label>
-                            <select id="patientSelect" required onchange="updatePatientInfo()">
-                                <option value="">-- Sélectionner un patient --</option>
-                            </select>
-                        </div>
-
-                        <div id="incapacityFields" class="dynamic-fields">
-                            <div class="form-group">
-                                <label for="startDate">Date de début *</label>
-                                <input type="date" id="startDate" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="endDate">Date de fin *</label>
-                                <input type="date" id="endDate" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" id="homeRest"> Repos à domicile obligatoire
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="diagnosis">Diagnostic/Motif *</label>
-                            <textarea id="diagnosis" placeholder="Raison du certificat..." required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="certDate">Date du certificat *</label>
-                            <input type="date" id="certDate" required>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            ✅ Générer le certificat
-                        </button>
-                    </form>
+                <div class="nav-section">
+                    <div class="nav-title">Imagerie Médicale</div>
+                    <a href="xrays.html" class="nav-item"><span>📷</span><span>Radiographies X</span></a>
+                    <a href="scanner3d.html" class="nav-item"><span>🔬</span><span>Scanner 3D</span></a>
+                    <a href="photos.html" class="nav-item"><span>🖼️</span><span>Photos Intra-orales</span></a>
+                    <a href="camera.html" class="nav-item"><span>📸</span><span>Caméra Temps Réel</span></a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-title">Intelligence Artificielle</div>
+                    <a href="ai-analysis.html" class="nav-item"><span>🤖</span><span>Analyses IA</span></a>
+                    <a href="ai-reports.html" class="nav-item"><span>📈</span><span>Rapports Intelligents</span></a>
+                    <a href="ai-history.html" class="nav-item"><span>🔄</span><span>Historique Complet IA</span></a>
+                    <a href="ai-realtime.html" class="nav-item"><span>⚡</span><span>IA Temps Réel</span></a>
+                </div>
+                <div class="nav-section">
+                    <div class="nav-title">Administration</div>
+                    <a href="inami.html" class="nav-item"><span>💳</span><span>INAMI / e-Health</span></a>
+                    <a href="mutuelles.html" class="nav-item"><span>🏥</span><span>Mutuelles</span></a>
+                    <a href="certificates.html" class="nav-item active"><span>📄</span><span>Certificats</span></a>
+                    <a href="billing.html" class="nav-item"><span>📊</span><span>Facturation</span></a>
+                </div>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="topbar">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" placeholder="Rechercher...">
+                </div>
+                <div class="topbar-actions">
+                    <div class="icon-btn" onclick="toggleTheme()" id="themeToggle" title="Changer le thème">🌙</div>
+                    <div class="icon-btn">🔔<span class="badge">5</span></div>
+                    <div class="icon-btn">⚙️</div>
+                    <div class="icon-btn">👤</div>
                 </div>
             </div>
-
-            <!-- Right: Preview + History -->
-            <div>
-                <div class="card">
-                    <div class="card-title">Aperçu</div>
-                    <div class="preview-panel" id="preview">
-                        <div class="preview-header">
-                            <div style="font-weight: bold;">Dr. Ekaterina SIALYEN</div>
-                            <div>Dentiste - INAMI 3-02462-81-001</div>
-                            <div>Cabinet Dentaire K2 Dent</div>
-                            <div>Sterrebeek, Belgique</div>
-                        </div>
-
-                        <div class="preview-title">CERTIFICAT MÉDICAL</div>
-
-                        <div class="preview-body" id="previewContent">
-                            <p>Sélectionnez un patient et remplissez le formulaire pour prévisualiser le certificat.</p>
-                        </div>
-
-                        <div class="preview-footer">
-                            <div></div>
-                            <div class="signature">
-                                <div>Fait à Sterrebeek, le <span id="certDatePreview"></span></div>
-                                <div style="margin-top: 40px; border-top: 1px solid #000; padding-top: 4px;">
-                                    Dr. Ekaterina SIALYEN<br>
-                                    Signature et cachet
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 12px; margin-top: 16px;">
-                        <button class="btn btn-primary" onclick="printCertificate()">🖨️ Imprimer</button>
-                        <button class="btn btn-secondary" onclick="savePDF()">📄 PDF</button>
-                    </div>
-                </div>
-
-                <div class="card" style="margin-top: 24px;">
-                    <div class="card-title">Historique</div>
-                    <div id="historyList" class="history-list"></div>
+            <div class="content">
+                <div class="placeholder-panel">
+                    <div class="placeholder-icon">📄</div>
+                    <div class="placeholder-title">Certificats Médicaux</div>
+                    <div class="placeholder-description">Génération rapide de certificats d'absence, certificats médicaux, et documents administratifs. Templates personnalisables et signature électronique intégrée.</div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
-
-    <script src="js/auth-rbac.js"></script>
     <script>
-        let currentTemplate = 'incapacity';
-
-        // Check auth
-        if (!Auth.isLoggedIn()) {
-            window.location.href = 'login.html';
-        }
-
-        const currentUser = Auth.getCurrentUser();
-        if (!Auth.hasPermission('certificates.view')) {
-            alert('❌ Accès refusé');
-            window.location.href = 'dashboard.html';
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPatients();
-            loadHistory();
-            document.getElementById('certDate').valueAsDate = new Date();
-            document.getElementById('startDate').valueAsDate = new Date();
-
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 7);
-            document.getElementById('endDate').valueAsDate = tomorrow;
-        });
-
-        // Load patients
-        function loadPatients() {
-            const patients = JSON.parse(localStorage.getItem('k2dent_patients') || '[]');
-            const select = document.getElementById('patientSelect');
-
-            patients.forEach(patient => {
-                const option = document.createElement('option');
-                option.value = patient.id;
-                option.textContent = `${patient.firstName} ${patient.lastName} - ${patient.niss}`;
-                option.dataset.patient = JSON.stringify(patient);
-                select.appendChild(option);
-            });
-        }
-
-        // Select template
-        function selectTemplate(type) {
-            currentTemplate = type;
-
-            // Update active state
-            document.querySelectorAll('.template-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.currentTarget.classList.add('active');
-
-            // Show/hide fields based on template
-            const incapacityFields = document.getElementById('incapacityFields');
-            incapacityFields.style.display = (type === 'incapacity') ? 'block' : 'none';
-
-            updatePreview();
-        }
-
-        // Update patient info
-        function updatePatientInfo() {
-            updatePreview();
-        }
-
-        // Update preview
-        function updatePreview() {
-            const select = document.getElementById('patientSelect');
-            if (!select.value) return;
-
-            const patient = JSON.parse(select.options[select.selectedIndex].dataset.patient);
-            const diagnosis = document.getElementById('diagnosis').value;
-            const certDate = document.getElementById('certDate').value;
-            const today = new Date(certDate).toLocaleDateString('fr-BE', { day: 'long', month: 'long', year: 'numeric' });
-
-            document.getElementById('certDatePreview').textContent = today;
-
-            let content = '';
-
-            switch(currentTemplate) {
-                case 'incapacity':
-                    const startDate = document.getElementById('startDate').value;
-                    const endDate = document.getElementById('endDate').value;
-                    const homeRest = document.getElementById('homeRest').checked;
-
-                    content = `
-                        <p style="margin-bottom: 20px;">Je soussignée, Dr. Ekaterina SIALYEN, médecin dentiste inscrite à l'Ordre des Médecins dentistes de Belgique sous le numéro INAMI 3-02462-81-001, certifie avoir examiné ce jour:</p>
-
-                        <p style="margin: 20px 0; font-weight: bold;">
-                            ${patient.firstName} ${patient.lastName}<br>
-                            NISS: ${patient.niss}<br>
-                            Né(e) le: ${patient.dateOfBirth || 'N/A'}
-                        </p>
-
-                        <p style="margin: 20px 0;">Et constate que l'état de santé de cette personne nécessite une interruption de travail du <strong>${formatDate(startDate)}</strong> au <strong>${formatDate(endDate)}</strong> inclus.</p>
-
-                        ${homeRest ? '<p style="margin: 20px 0;"><strong>Le repos à domicile est obligatoire.</strong></p>' : ''}
-
-                        <p style="margin: 20px 0;">Motif médical: ${diagnosis || 'Soins dentaires'}</p>
-
-                        <p style="margin: 20px 0; font-size: 12px; color: #666;">Le présent certificat est délivré à la demande de l'intéressé(e) pour faire valoir ses droits. Sauf contre-ordre médical, ce certificat ne dispense pas le patient de se présenter aux convocations administratives.</p>
-                    `;
-                    break;
-
-                case 'care':
-                    content = `
-                        <p style="margin-bottom: 20px;">Je soussignée, Dr. Ekaterina SIALYEN, médecin dentiste INAMI 3-02462-81-001, certifie avoir donné des soins à:</p>
-
-                        <p style="margin: 20px 0; font-weight: bold;">
-                            ${patient.firstName} ${patient.lastName}<br>
-                            NISS: ${patient.niss}
-                        </p>
-
-                        <p style="margin: 20px 0;">Soins prodigués: ${diagnosis || 'Consultation et soins dentaires'}</p>
-
-                        <p style="margin: 20px 0;">Ce certificat est délivré pour servir et valoir ce que de droit.</p>
-                    `;
-                    break;
-
-                case 'medical':
-                    content = `
-                        <p style="margin-bottom: 20px;">Je soussignée, Dr. Ekaterina SIALYEN, certifie avoir examiné:</p>
-
-                        <p style="margin: 20px 0; font-weight: bold;">
-                            ${patient.firstName} ${patient.lastName}<br>
-                            NISS: ${patient.niss}<br>
-                            Né(e) le: ${patient.dateOfBirth || 'N/A'}
-                        </p>
-
-                        <p style="margin: 20px 0;">${diagnosis || 'Certificat médical'}</p>
-
-                        <p style="margin: 20px 0;">Ce certificat est délivré à la demande de l'intéressé(e) pour faire valoir ses droits.</p>
-                    `;
-                    break;
-
-                case 'sport':
-                    content = `
-                        <p style="margin-bottom: 20px;">Je soussignée, Dr. Ekaterina SIALYEN, certifie avoir examiné ce jour:</p>
-
-                        <p style="margin: 20px 0; font-weight: bold;">
-                            ${patient.firstName} ${patient.lastName}<br>
-                            NISS: ${patient.niss}<br>
-                            Né(e) le: ${patient.dateOfBirth || 'N/A'}
-                        </p>
-
-                        <p style="margin: 20px 0;">Et atteste que cette personne est <strong>APTE</strong> à la pratique sportive.</p>
-
-                        ${diagnosis ? `<p style="margin: 20px 0;">Remarques: ${diagnosis}</p>` : ''}
-
-                        <p style="margin: 20px 0; font-size: 12px; color: #666;">Ce certificat est valable pour la saison sportive en cours.</p>
-                    `;
-                    break;
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                themeToggle.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
             }
-
-            document.getElementById('previewContent').innerHTML = content;
         }
-
-        // Generate certificate
-        function generateCertificate(event) {
-            event.preventDefault();
-
-            if (!Auth.hasPermission('certificates.create')) {
-                alert('❌ Permission refusée');
-                return;
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            if (savedTheme === 'light') {
+                html.setAttribute('data-theme', 'light');
+                if (themeToggle) themeToggle.textContent = '☀️';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                if (themeToggle) themeToggle.textContent = '🌙';
             }
-
-            const select = document.getElementById('patientSelect');
-            const patient = JSON.parse(select.options[select.selectedIndex].dataset.patient);
-
-            const certificate = {
-                id: `cert-${Date.now()}`,
-                type: currentTemplate,
-                patientId: patient.id,
-                patientName: `${patient.firstName} ${patient.lastName}`,
-                patientNISS: patient.niss,
-                diagnosis: document.getElementById('diagnosis').value,
-                certDate: document.getElementById('certDate').value,
-                createdAt: new Date().toISOString(),
-                createdBy: currentUser.username
-            };
-
-            if (currentTemplate === 'incapacity') {
-                certificate.startDate = document.getElementById('startDate').value;
-                certificate.endDate = document.getElementById('endDate').value;
-                certificate.homeRest = document.getElementById('homeRest').checked;
-            }
-
-            // Save to localStorage
-            const certificates = JSON.parse(localStorage.getItem('k2dent_certificates') || '[]');
-            certificates.unshift(certificate);
-            localStorage.setItem('k2dent_certificates', JSON.stringify(certificates));
-
-            alert('✅ Certificat généré avec succès!');
-            loadHistory();
         }
-
-        // Load history
-        function loadHistory() {
-            const certificates = JSON.parse(localStorage.getItem('k2dent_certificates') || '[]');
-            const listDiv = document.getElementById('historyList');
-
-            if (certificates.length === 0) {
-                listDiv.innerHTML = '<div style="text-align: center; color: #8B92A8; padding: 20px;">Aucun certificat</div>';
-                return;
-            }
-
-            const recent = certificates.slice(0, 10);
-            const typeNames = {
-                incapacity: 'Incapacité de travail',
-                care: 'Soins donnés',
-                medical: 'Certificat médical',
-                sport: 'Aptitude sportive'
-            };
-
-            listDiv.innerHTML = recent.map(cert => `
-                <div class="history-item">
-                    <div class="history-date">${formatDate(cert.certDate)}</div>
-                    <div class="history-title">${typeNames[cert.type]}</div>
-                    <div class="history-patient">${cert.patientName}</div>
-                </div>
-            `).join('');
-        }
-
-        // Format date
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('fr-BE', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        }
-
-        // Print certificate
-        function printCertificate() {
-            window.print();
-        }
-
-        // Save as PDF
-        function savePDF() {
-            alert('📄 Export PDF en cours...\nFonctionnalité disponible prochainement');
-        }
-
-        // Auto-update preview on input
-        document.getElementById('diagnosis').addEventListener('input', updatePreview);
-        document.getElementById('certDate').addEventListener('change', updatePreview);
-        document.getElementById('startDate').addEventListener('change', updatePreview);
-        document.getElementById('endDate').addEventListener('change', updatePreview);
-        document.getElementById('homeRest').addEventListener('change', updatePreview);
+        document.addEventListener('DOMContentLoaded', loadTheme);
     </script>
 </body>
 </html>
