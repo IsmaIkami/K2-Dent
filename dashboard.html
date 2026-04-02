@@ -1418,11 +1418,58 @@
                                     <button class="btn btn-primary" onclick="saveAnamnesis()">
                                         💾 Enregistrer dans le Dossier
                                     </button>
+                                    <button class="btn btn-primary" onclick="generateAIPrescriptions()" style="background: var(--warning);">
+                                        💊 Générer Prescriptions IA
+                                    </button>
                                     <button class="btn btn-secondary" onclick="editAnamnesis()">
                                         ✏️ Modifier
                                     </button>
                                     <button class="btn btn-secondary" onclick="regenerateAnamnesis()">
                                         🔄 Régénérer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI PRESCRIPTION SUGGESTIONS -->
+                        <div id="prescriptionSection" style="display: none; margin-top: 20px;">
+                            <div style="background: rgba(255, 149, 0, 0.1); border: 2px solid var(--warning); border-radius: 12px; padding: 24px;">
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                                    <h3 style="font-size: 18px; font-weight: 700; margin: 0;">💊 Prescriptions IA — À valider par Dr. Sialyen</h3>
+                                    <span style="background: var(--warning); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700;">
+                                        SUGGESTIONS
+                                    </span>
+                                </div>
+
+                                <!-- Warning Banner -->
+                                <div style="background: rgba(255, 59, 48, 0.1); border: 1px solid var(--danger); border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                                    <div style="display: flex; gap: 12px; align-items: start;">
+                                        <span style="font-size: 24px;">⚠️</span>
+                                        <div>
+                                            <strong style="color: var(--danger);">VALIDATION OBLIGATOIRE</strong>
+                                            <p style="margin: 8px 0 0 0; font-size: 13px; line-height: 1.5;">
+                                                Ces prescriptions sont générées par IA à titre indicatif uniquement.
+                                                Elles DOIVENT être validées et signées par Dr. Sialyen avant délivrance au patient.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Prescription Content -->
+                                <div style="background: white; border-radius: 10px; padding: 20px; color: #1A1D29; margin-bottom: 20px;">
+                                    <div id="prescriptionText" style="white-space: pre-wrap; line-height: 1.7; color: #1A1D29;"></div>
+                                </div>
+
+                                <!-- Actions -->
+                                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                    <button class="btn btn-primary" onclick="openRecipePage()">
+                                        ✅ Valider et Créer Recip-e
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="regeneratePrescriptions()">
+                                        🔄 Régénérer
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="editPrescriptions()">
+                                        ✏️ Modifier
                                     </button>
                                 </div>
                             </div>
@@ -1889,31 +1936,68 @@
                 document.getElementById('transcriptionSection').style.display = 'block';
                 console.log('Transcription displayed, starting anamnesis timeout...');
 
-                setTimeout(function() {
-                    console.log('Generating anamnesis...');
-                    const anamnesis = "**Motif de consultation:**\nDouleur dentaire secteur supérieur droit depuis 5 jours\n\n**Histoire de la maladie actuelle:**\n- Début: Il y a 5 jours, évolution progressive\n- Caractère: Douleur provoquée par stimuli thermiques (chaud/froid)\n- Intensité: Initialement légère, augmentation progressive\n- Sensibilité au toucher de la dent\n- Pas de gonflement gingival visible\n\n**Symptômes associés:**\n- Sensibilité thermique marquée\n- Douleur à la percussion légère\n- Pas d'œdème\n- Pas de fièvre mentionnée\n\n**Antécédents médicaux pertinents:**\n- Diabète Type 2 (sous Metformine 850mg)\n- Allergies: Pénicilline, Latex\n\n**Hypothèses diagnostiques:**\n1. Pulpite (réversible ou irréversible) - Probabilité haute\n2. Carie dentaire profonde - À confirmer par examen clinique\n3. Fissure/fêlure dentaire - À exclure\n\n**Examens complémentaires nécessaires:**\n- Examen clinique détaillé de la dent concernée\n- Test de vitalité pulpaire\n- Radiographie rétro-alvéolaire de la zone\n- Test de percussion et palpation\n\n**Plan de traitement proposé:**\n1. Examen clinique approfondi immédiat\n2. Radiographie pour évaluation de la carie/pulpe\n3. Si pulpite irréversible: traitement endodontique\n4. Si pulpite réversible: restauration avec protection pulpaire\n\n**Points d'attention:**\n⚠️ Patient diabétique - Surveillance accrue de la cicatrisation\n⚠️ Douleur en augmentation - Traitement urgent recommandé\n⚠️ Allergie Pénicilline - Antibiotiques alternatifs si nécessaire";
-
-                    console.log('Setting anamnesis text...');
-                    document.getElementById('anamnesisText').textContent = anamnesis;
+                // AUTO-GENERATE ANAMNESIS WITH CLAUDE AI
+                (async function() {
+                    console.log('Generating anamnesis with Claude AI...');
+                    AI_Dental.showAILoading('anamnesisText', 'Claude IA en cours de génération de l\'anamnèse...');
                     document.getElementById('anamnesisSection').style.display = 'block';
-                    console.log('Anamnesis displayed');
 
-                    document.getElementById('recordingTimer').style.display = 'none';
-                    document.getElementById('recordingStatusDot').style.background = 'var(--success)';
-                    document.getElementById('recordingStatusText').textContent = 'Terminé';
-                    document.getElementById('startRecordBtn').style.display = 'inline-flex';
+                    try {
+                        // Get patient data
+                        const patientData = {
+                            name: 'Marie Dubois',
+                            age: 42,
+                            niss: '83.03.05-123.45',
+                            mutuelle: 'Mutualité Chrétienne',
+                            mutuelleCode: '300',
+                            bim: false,
+                            language: 'FR',
+                            allergies: 'Pénicilline',
+                            medications: 'Aucune',
+                            conditions: 'Aucune',
+                            dentalHistory: 'Dernière visite il y a 6 mois'
+                        };
 
-                    console.log('Scrolling to anamnesis...');
-                    document.getElementById('anamnesisSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Generate with Claude AI
+                        const anamnesis = await AI_Dental.generateAnamnesis(patientData, transcription);
 
-                    console.log('Adding notification...');
-                    addNotification('🤖', 'rgba(139, 92, 246, 0.15)', 'var(--purple)',
-                        'Transcription et anamnèse terminées',
-                        "L'IA a transcrit la consultation et généré l'anamnèse automatiquement. Durée: " +
-                        Math.floor(recordingSeconds / 60) + ' min ' + (recordingSeconds % 60) + ' sec',
-                        'var(--purple)');
-                    console.log('Recording process complete!');
-                }, 2000);
+                        // Display result
+                        document.getElementById('anamnesisText').innerHTML = AI_Dental.renderMarkdownAnamnesis(anamnesis);
+
+                        // Save version history
+                        const version = AI_Dental.saveAnamnesisVersion(patientData.niss, anamnesis, 'AI');
+
+                        // Update UI
+                        document.getElementById('recordingTimer').style.display = 'none';
+                        document.getElementById('recordingStatusDot').style.background = 'var(--success)';
+                        document.getElementById('recordingStatusText').textContent = 'Terminé';
+                        document.getElementById('startRecordBtn').style.display = 'inline-flex';
+
+                        // Scroll to result
+                        document.getElementById('anamnesisSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        // Show notification
+                        addNotification('🤖', 'rgba(139, 92, 246, 0.15)', 'var(--purple)',
+                            'Anamnèse IA générée',
+                            `Claude Sonnet 4.5 a généré l'anamnèse (Version ${version.version}). Durée enregistrement: ` +
+                            Math.floor(recordingSeconds / 60) + ' min ' + (recordingSeconds % 60) + ' sec',
+                            'var(--purple)');
+
+                        console.log('AI anamnesis generated successfully!');
+
+                    } catch (error) {
+                        console.error('Error generating AI anamnesis:', error);
+                        document.getElementById('anamnesisText').innerHTML = `
+                            <div style="color: #FF3B30; padding: 20px; text-align: center;">
+                                <strong>⚠️ Erreur IA</strong><br>
+                                ${error.message}<br><br>
+                                <small>Vérifiez votre clé API Anthropic.<br>
+                                Vous pouvez toujours saisir l'anamnèse manuellement.</small>
+                            </div>
+                        `;
+                        AI_Dental.showNotification('❌ Erreur IA: ' + error.message, 'error');
+                    }
+                })();
             }, 3000);
             } catch (error) {
                 console.error('Error in stopRecording:', error);
@@ -1959,16 +2043,54 @@
             }
         }
 
-        function regenerateAnamnesis() {
-            showLoading("Régénération de l'anamnèse IA...");
+        async function regenerateAnamnesis() {
+            try {
+                AI_Dental.showAILoading('anamnesisText', 'IA en cours de génération de l\'anamnèse...');
 
-            setTimeout(function() {
-                hideLoading();
-                alert('✅ Nouvelle version de l\'anamnèse générée avec paramètres optimisés!');
+                // Get patient data
+                const patientData = {
+                    name: 'Marie Dubois',
+                    age: 42,
+                    niss: '83.03.05-123.45',
+                    mutuelle: 'Mutualité Chrétienne',
+                    mutuelleCode: '300',
+                    bim: false,
+                    language: 'FR',
+                    allergies: 'Pénicilline',
+                    medications: 'Aucune',
+                    conditions: 'Aucune',
+                    dentalHistory: 'Dernière visite il y a 6 mois'
+                };
 
-                addToTimeline('ai-generated', 'badge-ai', 'Anamnèse régénérée',
-                    "Nouvelle version de l'anamnèse générée par IA avec analyse approfondie.");
-            }, 2500);
+                // Get transcription
+                const transcription = document.getElementById('transcriptionText').textContent;
+
+                // Generate anamnesis with Claude AI
+                const anamnesis = await AI_Dental.generateAnamnesis(patientData, transcription);
+
+                // Display result
+                document.getElementById('anamnesisText').innerHTML = AI_Dental.renderMarkdownAnamnesis(anamnesis);
+
+                // Save version history
+                const version = AI_Dental.saveAnamnesisVersion(patientData.niss, anamnesis, 'AI');
+
+                // Show success
+                AI_Dental.showNotification(`✅ Anamnèse régénérée - Version ${version.version}`, 'success');
+
+                addToTimeline('ai-generated', 'badge-ai', 'Anamnèse régénérée par IA',
+                    `Nouvelle version générée par Claude Sonnet 4.5 - Version ${version.version}`);
+
+            } catch (error) {
+                console.error('Error generating anamnesis:', error);
+                AI_Dental.showNotification('❌ Erreur: ' + error.message, 'error');
+                document.getElementById('anamnesisText').innerHTML = `
+                    <div style="color: #FF3B30; padding: 20px; text-align: center;">
+                        <strong>Erreur lors de la génération</strong><br>
+                        ${error.message}<br><br>
+                        Vérifiez votre clé API Anthropic dans les paramètres.
+                    </div>
+                `;
+            }
         }
         
         // Toggle notifications panel
@@ -2163,6 +2285,80 @@
             }, 2500);
         }
 
+        // AI PRESCRIPTION FUNCTIONS
+
+        async function generateAIPrescriptions() {
+            try {
+                AI_Dental.showAILoading('prescriptionText', 'Claude IA en cours de génération des prescriptions...');
+                document.getElementById('prescriptionSection').style.display = 'block';
+
+                // Get patient data
+                const patientData = {
+                    name: 'Marie Dubois',
+                    age: 42,
+                    weight: 65, // kg
+                    niss: '83.03.05-123.45',
+                    mutuelle: 'Mutualité Chrétienne',
+                    mutuelleCode: '300',
+                    bim: false,
+                    allergies: 'Pénicilline',
+                    medications: 'Aucune',
+                    conditions: 'Aucune'
+                };
+
+                // Get anamnesis
+                const anamnesis = document.getElementById('anamnesisText').textContent;
+
+                // Generate prescriptions with Claude AI
+                const prescriptions = await AI_Dental.generatePrescriptions(patientData, anamnesis);
+
+                // Display result
+                document.getElementById('prescriptionText').innerHTML = AI_Dental.renderMarkdownAnamnesis(prescriptions);
+
+                // Save to history
+                AI_Dental.savePrescriptionSuggestion(patientData.niss, prescriptions, []);
+
+                // Show success
+                AI_Dental.showNotification('✅ Prescriptions générées - À valider par Dr. Sialyen', 'success');
+
+                addToTimeline('ai-generated', 'badge-ai', 'Prescriptions IA générées',
+                    'Suggestions de prescriptions générées par Claude Sonnet 4.5 - Validation obligatoire');
+
+            } catch (error) {
+                console.error('Error generating prescriptions:', error);
+                AI_Dental.showNotification('❌ Erreur: ' + error.message, 'error');
+                document.getElementById('prescriptionText').innerHTML = `
+                    <div style="color: #FF3B30; padding: 20px; text-align: center;">
+                        <strong>Erreur lors de la génération</strong><br>
+                        ${error.message}<br><br>
+                        Vérifiez votre clé API Anthropic.
+                    </div>
+                `;
+            }
+        }
+
+        async function regeneratePrescriptions() {
+            await generateAIPrescriptions();
+        }
+
+        function editPrescriptions() {
+            const currentText = document.getElementById('prescriptionText').textContent;
+            const newText = prompt("Modifier les prescriptions:", currentText.substring(0, 200) + '...');
+
+            if (newText) {
+                document.getElementById('prescriptionText').textContent = newText;
+                AI_Dental.showNotification("✅ Prescriptions modifiées - N'oubliez pas de valider", 'success');
+            }
+        }
+
+        function openRecipePage() {
+            // Redirect to Recip-e prescription page with pre-filled data
+            AI_Dental.showNotification('📄 Ouverture du module Recip-e...', 'info');
+            setTimeout(() => {
+                window.location.href = 'prescriptions.html';
+            }, 1000);
+        }
+
         // Check mutuelle
         function checkMutuelle() {
             showLoading('Vérification mutuelle...');
@@ -2317,5 +2513,9 @@
             }
         });
     </script>
+
+    <!-- K2 Dent - Belgium Compliance & AI Integration -->
+    <script src="js/belgium.js"></script>
+    <script src="js/ai-dental.js"></script>
 </body>
 </html>
