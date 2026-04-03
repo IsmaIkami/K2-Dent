@@ -1080,6 +1080,10 @@
             }
         }
     </style>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -2512,6 +2516,215 @@
                 });
             }
         });
+
+        // ====================================================================
+        // SUPABASE INTEGRATION - K2 DENT CLOUD PERSISTENCE
+        // ====================================================================
+
+        let currentPatientId = null;
+        let currentPatientNISS = null;
+        let supabaseInitialized = false;
+
+        // Initialize Supabase on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                supabaseInitialized = initSupabase();
+                if (supabaseInitialized) {
+                    console.log('✅ K2 Dent Dashboard - Supabase initialized');
+
+                    // Load patient from URL parameter if provided
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const niss = urlParams.get('niss');
+                    if (niss) {
+                        await loadPatientByNISS(niss);
+                    }
+                } else {
+                    console.warn('⚠️ Supabase not configured - using local mode');
+                }
+            } catch (error) {
+                console.error('Error initializing Supabase:', error);
+            }
+        });
+
+        // Load patient data from Supabase by NISS
+        async function loadPatientByNISS(niss) {
+            if (!supabaseInitialized) return null;
+
+            try {
+                const patient = await DB.getPatientByNISS(niss);
+                if (patient) {
+                    currentPatientId = patient.id;
+                    currentPatientNISS = patient.niss;
+
+                    // Update patient info in UI
+                    updatePatientInfo(patient);
+
+                    // Load timeline
+                    await loadPatientTimeline(patient.id);
+
+                    console.log('✅ Patient loaded:', patient.first_name, patient.last_name);
+                    return patient;
+                }
+            } catch (error) {
+                console.error('Error loading patient:', error);
+            }
+            return null;
+        }
+
+        // Update patient info in the UI
+        function updatePatientInfo(patient) {
+            const patientName = `${patient.first_name} ${patient.last_name}`;
+            const patientAge = calculateAge(patient.date_of_birth);
+
+            // Update any patient name displays
+            document.querySelectorAll('.patient-name').forEach(el => {
+                el.textContent = patientName;
+            });
+
+            // Update header if exists
+            const header = document.querySelector('.page-header h2');
+            if (header) {
+                header.innerHTML = `🦷 Dashboard Patient - ${patientName}`;
+            }
+        }
+
+        // Calculate age from date of birth
+        function calculateAge(dateOfBirth) {
+            if (!dateOfBirth) return null;
+            const today = new Date();
+            const birthDate = new Date(dateOfBirth);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Load patient timeline from Supabase
+        async function loadPatientTimeline(patientId) {
+            if (!supabaseInitialized) return;
+
+            try {
+                const timeline = await DB.getPatientTimeline(patientId);
+                const timelineEl = document.getElementById('patientTimeline');
+                if (!timelineEl) return;
+
+                // Clear existing timeline
+                timelineEl.innerHTML = '';
+
+                // Add each event
+                timeline.forEach(event => {
+                    const eventDate = new Date(event.event_date);
+                    const timeStr = formatDateTime(eventDate);
+
+                    const newItem = document.createElement('div');
+                    newItem.className = `timeline-item ${event.event_type}`;
+                    newItem.innerHTML = `
+                        <div class="timeline-content">
+                            <div class="timeline-meta">
+                                <span class="timeline-date">${timeStr}</span>
+                                <span class="timeline-badge ${event.badge}">${event.badge.replace('badge-', '').toUpperCase()}</span>
+                            </div>
+                            <div class="timeline-text">
+                                <strong>${event.title}</strong><br>
+                                ${event.description || ''}
+                            </div>
+                        </div>
+                    `;
+                    timelineEl.appendChild(newItem);
+                });
+
+                console.log(`✅ Loaded ${timeline.length} timeline events`);
+            } catch (error) {
+                console.error('Error loading timeline:', error);
+            }
+        }
+
+        // Format date/time for timeline
+        function formatDateTime(date) {
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${day}/${month}/${year} - ${hours}:${minutes}`;
+        }
+
+        // Override saveAnamnesis to also save to Supabase
+        const originalSaveAnamnesis = window.saveAnamnesis;
+        window.saveAnamnesis = async function() {
+            // Call original function for UI updates
+            if (originalSaveAnamnesis) {
+                originalSaveAnamnesis();
+            }
+
+            // Save to Supabase if initialized
+            if (supabaseInitialized && currentPatientId) {
+                try {
+                    const anamnesisText = document.getElementById('anamnesisText')?.textContent || '';
+                    const transcriptionText = document.getElementById('transcriptionText')?.textContent || '';
+
+                    // Save anamnesis with auto-versioning
+                    const anamnesis = await DB.saveAnamnesis(
+                        currentPatientId,
+                        anamnesisText,
+                        'AI',
+                        transcriptionText,
+                        recordingSeconds
+                    );
+
+                    console.log(`✅ Anamnèse saved to Supabase - Version ${anamnesis.version}`);
+
+                    // Add timeline event
+                    await DB.addTimelineEvent(currentPatientId, {
+                        type: 'anamnesis',
+                        title: `Anamnèse IA v${anamnesis.version}`,
+                        description: `Générée automatiquement par IA. Durée: ${Math.floor(recordingSeconds / 60)}min ${recordingSeconds % 60}sec`,
+                        badge: 'badge-ai'
+                    });
+
+                } catch (error) {
+                    console.error('Error saving to Supabase:', error);
+                    alert('⚠️ Erreur lors de la sauvegarde dans le cloud: ' + error.message);
+                }
+            }
+        };
+
+        // Override addToTimeline to also save to Supabase
+        const originalAddToTimeline = window.addToTimeline;
+        window.addToTimeline = async function(type, badge, title, content) {
+            // Call original function for UI updates
+            if (originalAddToTimeline) {
+                originalAddToTimeline(type, badge, title, content);
+            }
+
+            // Save to Supabase if initialized
+            if (supabaseInitialized && currentPatientId) {
+                try {
+                    await DB.addTimelineEvent(currentPatientId, {
+                        type: type,
+                        title: title,
+                        description: content,
+                        badge: badge
+                    });
+                    console.log('✅ Timeline event saved to Supabase');
+                } catch (error) {
+                    console.error('Error saving timeline to Supabase:', error);
+                }
+            }
+        };
+
+        // Add patient selector UI (optional - for testing)
+        function showPatientSelector() {
+            const niss = prompt('Entrez le NISS du patient (format: XX.XX.XX-XXX.XX):');
+            if (niss) {
+                loadPatientByNISS(niss);
+            }
+        }
+
+        console.log('📦 K2 Dent Dashboard - Supabase integration loaded');
+
     </script>
 
     <!-- K2 Dent - Belgium Compliance & AI Integration -->

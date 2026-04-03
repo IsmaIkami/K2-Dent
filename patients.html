@@ -424,6 +424,10 @@
             }
         }
     </style>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -693,6 +697,234 @@
         }
 
         document.addEventListener('DOMContentLoaded', loadTheme);
+
+        // ====================================================================
+        // SUPABASE INTEGRATION - PATIENT MANAGEMENT
+        // ====================================================================
+
+        let supabaseInitialized = false;
+        let allPatients = [];
+
+        // Initialize Supabase and load patients
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                supabaseInitialized = initSupabase();
+                if (supabaseInitialized) {
+                    console.log('✅ K2 Dent Patients - Supabase initialized');
+                    await loadAllPatients();
+                } else {
+                    console.warn('⚠️ Supabase not configured - showing demo data');
+                }
+            } catch (error) {
+                console.error('Error initializing patients module:', error);
+            }
+        });
+
+        // Load all patients from Supabase
+        async function loadAllPatients() {
+            if (!supabaseInitialized) return;
+
+            try {
+                const patients = await DB.getAllPatients();
+                allPatients = patients;
+                displayPatients(patients);
+                updateStats(patients);
+                console.log(`✅ Loaded ${patients.length} patients from Supabase`);
+            } catch (error) {
+                console.error('Error loading patients:', error);
+                alert('⚠️ Erreur lors du chargement des patients: ' + error.message);
+            }
+        }
+
+        // Display patients in the list
+        function displayPatients(patients) {
+            const container = document.querySelector('.patients-panel');
+            if (!container) return;
+
+            // Keep the header
+            const header = container.querySelector('.panel-header');
+            container.innerHTML = '';
+            if (header) container.appendChild(header);
+
+            if (patients.length === 0) {
+                container.innerHTML += `
+                    <div style="padding: 40px; text-align: center; color: var(--text-secondary);">
+                        <div style="font-size: 48px; margin-bottom: 16px;">👥</div>
+                        <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">
+                            Aucun patient
+                        </div>
+                        <div>Ajoutez votre premier patient pour commencer</div>
+                    </div>
+                `;
+                return;
+            }
+
+            patients.forEach(patient => {
+                const age = calculateAge(patient.date_of_birth);
+                const mutuelleNames = {
+                    '100': 'Mutualité Chrétienne',
+                    '200': 'Mutualités Libres',
+                    '300': 'Mutualité Socialiste',
+                    '400': 'Mutualité Neutre',
+                    '500': 'Mutualité Libérale',
+                    '600': 'CAAMI',
+                    '900': 'Autre'
+                };
+                const mutuelle = mutuelleNames[patient.mutuelle_code] || 'Non renseignée';
+
+                const patientEl = document.createElement('div');
+                patientEl.className = 'patient-item';
+                patientEl.onclick = () => openPatientDashboard(patient);
+
+                patientEl.innerHTML = `
+                    <div class="patient-avatar">${patient.gender === 'F' ? '👩' : patient.gender === 'M' ? '👨' : '👤'}</div>
+                    <div class="patient-info">
+                        <div class="patient-name">${patient.first_name} ${patient.last_name}</div>
+                        <div class="patient-meta">
+                            <span>📧 ${patient.email || 'Non renseigné'}</span>
+                            <span>📞 ${patient.phone || 'Non renseigné'}</span>
+                            <span>🎂 ${formatDate(patient.date_of_birth)} ${age ? `(${age} ans)` : ''}</span>
+                            <span style="color: var(--success);">✓ ${mutuelle}</span>
+                            ${patient.bim ? '<span style="color: var(--warning);">⭐ BIM</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="patient-actions">
+                        <button class="btn btn-icon btn-primary" onclick="event.stopPropagation(); openPatientDashboard(${JSON.stringify(patient).replace(/"/g, '&quot;')})">
+                            📂 Dossier
+                        </button>
+                        <button class="btn btn-icon btn-secondary" onclick="event.stopPropagation(); scheduleAppointment(${JSON.stringify(patient).replace(/"/g, '&quot;')})">
+                            📅 RDV
+                        </button>
+                        <button class="btn btn-icon" onclick="event.stopPropagation(); editPatient('${patient.id}')" style="background: var(--warning);">
+                            ✏️
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(patientEl);
+            });
+        }
+
+        // Update statistics
+        function updateStats(patients) {
+            const totalPatients = patients.length;
+            const newPatients30d = patients.filter(p => {
+                const created = new Date(p.created_at);
+                const now = new Date();
+                const diff = (now - created) / (1000 * 60 * 60 * 24);
+                return diff <= 30;
+            }).length;
+
+            // Update stat cards if they exist
+            const statCards = document.querySelectorAll('.stat-card');
+            if (statCards[0]) {
+                statCards[0].querySelector('.stat-value').textContent = totalPatients;
+            }
+            if (statCards[1]) {
+                statCards[1].querySelector('.stat-value').textContent = newPatients30d;
+            }
+        }
+
+        // Calculate age from date of birth
+        function calculateAge(dateOfBirth) {
+            if (!dateOfBirth) return null;
+            const today = new Date();
+            const birthDate = new Date(dateOfBirth);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        // Format date to DD/MM/YYYY
+        function formatDate(dateString) {
+            if (!dateString) return 'Non renseignée';
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        // Open patient dashboard
+        function openPatientDashboard(patient) {
+            window.location.href = `dashboard.html?niss=${encodeURIComponent(patient.niss)}`;
+        }
+
+        // Schedule appointment
+        function scheduleAppointment(patient) {
+            window.location.href = `agenda.html?niss=${encodeURIComponent(patient.niss)}`;
+        }
+
+        // Edit patient
+        async function editPatient(patientId) {
+            if (!supabaseInitialized) {
+                alert('⚠️ Supabase non configuré');
+                return;
+            }
+
+            const patient = allPatients.find(p => p.id === patientId);
+            if (!patient) return;
+
+            // Simple prompt-based edit (could be replaced with a modal form)
+            const firstName = prompt('Prénom:', patient.first_name);
+            if (!firstName) return;
+
+            const lastName = prompt('Nom:', patient.last_name);
+            if (!lastName) return;
+
+            const email = prompt('Email:', patient.email || '');
+            const phone = prompt('Téléphone:', patient.phone || '');
+
+            try {
+                const updated = await DB.savePatient({
+                    id: patient.id,
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    phone: phone,
+                    // Keep other fields unchanged
+                    niss: patient.niss,
+                    date_of_birth: patient.date_of_birth,
+                    gender: patient.gender,
+                    mutuelle_code: patient.mutuelle_code,
+                    bim: patient.bim
+                });
+
+                console.log('✅ Patient updated');
+                await loadAllPatients(); // Reload list
+                alert('✅ Patient mis à jour avec succès!');
+            } catch (error) {
+                console.error('Error updating patient:', error);
+                alert('⚠️ Erreur lors de la mise à jour: ' + error.message);
+            }
+        }
+
+        // Search patients
+        async function searchPatients(query) {
+            if (!query || query.trim() === '') {
+                displayPatients(allPatients);
+                return;
+            }
+
+            const filtered = allPatients.filter(p => {
+                const searchStr = `${p.first_name} ${p.last_name} ${p.niss} ${p.email || ''} ${p.phone || ''}`.toLowerCase();
+                return searchStr.includes(query.toLowerCase());
+            });
+
+            displayPatients(filtered);
+        }
+
+        // Add search functionality to search input if it exists
+        const searchInput = document.querySelector('input[placeholder*="Chercher"]');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => searchPatients(e.target.value));
+        }
+
+        console.log('📦 K2 Dent Patients - Supabase integration loaded');
+
     </script>
 </body>
 </html>
