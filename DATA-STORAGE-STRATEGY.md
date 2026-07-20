@@ -76,14 +76,14 @@ localStorage.setItem('k2dent_anamnesis_8303051234', JSON.stringify([
     version: 1,
     content: "## Motif de consultation...",
     timestamp: "2026-04-03T10:30:00Z",
-    author: "IA Claude Sonnet 4.5",
+    author: "Dr. Ismail Sialyen (IA)",
     type: "AI"
   },
   {
     version: 2,
     content: "## Motif de consultation (modifié)...",
     timestamp: "2026-04-03T10:35:00Z",
-    author: "Dr. E. Sialyen",
+    author: "Dr. Ismail Sialyen",
     type: "MODIFIED"
   }
 ]));

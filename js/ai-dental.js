@@ -6,7 +6,7 @@
  * @author Ismail Sialyen
  * @date April 2026
  * @version 1.0.0
- * @powered-by Claude Sonnet 4.5 (Anthropic)
+ * @powered-by AI Technology
  */
 
 // ============================================================================
@@ -369,7 +369,7 @@ function saveAnamnesisVersion(patientNISS, content, type = 'AI') {
     version: history.length + 1,
     content: content,
     timestamp: new Date().toISOString(),
-    author: type === 'AI' ? 'IA Claude Sonnet 4.5' : 'Dr. E. Sialyen',
+    author: type === 'AI' ? 'Dr. Ismail Sialyen (IA)' : 'Dr. Ismail Sialyen',
     type: type, // 'AI' or 'MODIFIED'
     wordCount: content.split(/\s+/).length,
     charCount: content.length
